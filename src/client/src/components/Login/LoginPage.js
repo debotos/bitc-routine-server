@@ -3,7 +3,7 @@ import { Button, Help } from 'bloomer';
 import { connect } from 'react-redux';
 import { loginUser } from '../../redux/actions/authActions';
 import { history } from '../App';
-
+import { clearErrors } from '../../redux/actions/profileActions';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +33,8 @@ class LoginPage extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-
+    this.setState({ errors: {} });
+    this.props.clearErrors();
     const userData = {
       email: this.state.email,
       password: this.state.password
@@ -136,4 +137,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(LoginPage);
+export default connect(mapStateToProps, { loginUser, clearErrors })(LoginPage);

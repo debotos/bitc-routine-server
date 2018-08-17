@@ -11,7 +11,8 @@ import store from '../redux/store/store';
 
 import PrivateRoute from './common/PrivateRoute';
 
-import Register from './Signup/Register';
+// import Register from './Signup/Register';
+import Profile from './Profile/Profile';
 import LoginPage from './Login/LoginPage';
 import Dashboard from './Dashboard/Dashboard';
 
@@ -41,10 +42,9 @@ if (localStorage.jwtToken) {
 
 /*
   / [login]
+  / profile
   /dashboard [it means profile page]
-    /profile
-    /portfolio
-    /blog
+    all tabs
 */
 
 class App extends Component {
@@ -54,7 +54,8 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={LoginPage} />
-            <Route exact path="/register" component={Register} />
+            {/* <Route path="/register" component={Register} /> */}
+            <PrivateRoute path="/profile" component={Profile} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <Redirect to="/" />
           </Switch>

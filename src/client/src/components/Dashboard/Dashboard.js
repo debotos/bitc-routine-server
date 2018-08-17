@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
-// import { Route, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { appInit } from '../../redux/actions/init';
 
-// import Blog from '../Blog/Blog';
-// import Portfolio from '../Portfolio/Portfolio';
-// import Porfile from '../Profile/Porfile';
-// import NavBar from '../Navbar/Navbar';
+import NavBar from '../Navbar/Navbar';
+import Spinner from '../common/Spinner';
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.appInit();
+  }
   render() {
-    return (
+    // const STORE = this.props.allRedux;
+    const { profile, loading } = this.props.profile;
+
+    return loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh'
+        }}
+      >
+        <Spinner />
+      </div>
+    ) : (
       <div>
-        {/* <NavBar />
-        <div style={{ marginTop: '55px' }} />
-        <Switch>
-          <Route exact={true} path="/dashboard" component={Porfile} />
-          <Route path={`${this.props.match.path}/blog`} component={Blog} />
-          <Route
-            path={`${this.props.match.path}/portfolio`}
-            component={Portfolio}
-          />
-          <Redirect to="/" />
-        </Switch> */}
+        <NavBar user={profile} />
         Dashboard
       </div>
     );
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => ({
+  profile: state.profile,
+  allRedux: state
+});
+
+export default connect(mapStateToProps, { appInit })(Dashboard);

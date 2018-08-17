@@ -15,6 +15,7 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix src/client && npm run build --prefix src/client"
   },
   "dependencies": {
+    "async": "^2.6.1",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "bloomer": "^0.6.3",

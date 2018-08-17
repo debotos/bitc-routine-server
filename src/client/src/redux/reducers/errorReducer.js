@@ -8,6 +8,7 @@ export default function(state = initialState, action) {
       // console.log(action.payload);
       return action.payload;
     case CLEAR_ERRORS:
+      console.log('***** Cleaning global all errors *****');
       return {};
     default:
       return state;

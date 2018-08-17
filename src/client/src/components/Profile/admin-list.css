@@ -1,0 +1,9 @@
+@media (max-width: 1000px) {
+  .admin-list-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .admin-delete-btn {
+    margin-top: 1rem;
+  }
+}

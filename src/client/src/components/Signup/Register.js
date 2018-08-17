@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { registerUser } from '../../redux/actions/authActions';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import { clearErrors } from '../../redux/actions/profileActions';
 
 class Register extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Register extends Component {
   onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {} });
+    this.props.clearErrors();
     const newUser = {
       name: this.state.name,
       email: this.state.email,
@@ -221,4 +223,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(mapStateToProps, { registerUser, clearErrors })(
+  withRouter(Register)
+);

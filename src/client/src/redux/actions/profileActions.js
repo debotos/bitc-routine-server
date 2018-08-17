@@ -3,18 +3,18 @@ import axios from 'axios';
 import {
   GET_PROFILE,
   GET_PROFILES,
+  DELETE_PROFILE,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   CLEAR_ERRORS
-  // SET_CURRENT_USER
 } from './types';
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('/api/profile')
+    .get('/api/users/me')
     .then(res =>
       dispatch({
         type: GET_PROFILE,
@@ -30,14 +30,55 @@ export const getCurrentProfile = () => dispatch => {
 };
 
 // Create Profile
+export const deleteProfile = (profileData, history) => dispatch => {
+  axios
+    .post('/api/users/remove', profileData)
+    .then(res =>
+      dispatch({
+        type: DELETE_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Update Profile
+export const updateProfile = (updatedData, history) => dispatch => {
+  axios
+    .post('/api/users/me/edit', updatedData)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Delete Profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
-    .post('/api/profile', profileData)
-    .then(res =>
-      setTimeout(() => {
-        history.push('/');
-      }, 2000)
-    )
+    .post('/api/users/register', profileData)
+    .then(res => {
+      dispatch({
+        type: GET_PROFILES,
+        payload: [res.data.userData]
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: res.data
+      });
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -50,7 +91,7 @@ export const createProfile = (profileData, history) => dispatch => {
 export const getProfiles = () => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('/api/profile/all')
+    .get('/api/users/all')
     .then(res =>
       dispatch({
         type: GET_PROFILES,
