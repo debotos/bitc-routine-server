@@ -3,19 +3,12 @@ import { Tabs, Tab, TabList } from 'bloomer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 /* Implement Reference https://github.com/AlgusDark/bloomer/issues/67 */
 import Semester from './Semester/Semester';
+import Teachers from './Teachers/Teachers';
+import Subjects from './Subjects/Subjects';
+
 const Routine = () => (
   <div>
     <h2>Routine</h2>
-  </div>
-);
-const Subjects = () => (
-  <div>
-    <h2>Subjects</h2>
-  </div>
-);
-const Teachers = () => (
-  <div>
-    <h2>Teachers</h2>
   </div>
 );
 const CustomTab = ({ label, to, activeOnlyWhenExact, icon }) => (

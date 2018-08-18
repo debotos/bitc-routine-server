@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
     );
 });
 
-// @route   GET api/teachers/
+// @route   GET api/teachers
 // @desc    get all teachers info list
 // @access  Public
 router.get('/', (req, res) => {

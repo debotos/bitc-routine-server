@@ -11,7 +11,9 @@ class Dashboard extends Component {
     this.props.appInit();
   }
   render() {
-    // const STORE = this.props.allRedux;
+    const STORE = this.props.allRedux;
+    console.log(STORE);
+
     const { profile, loading } = this.props.profile;
 
     return loading ? (

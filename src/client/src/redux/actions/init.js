@@ -8,12 +8,15 @@ import {
 } from './types';
 
 import { setProfileLoading, clearErrors } from './profileActions';
+import { getTeachers, resetTeachersData } from './teacherActions';
+import { getSubjects, resetSubjectsData } from './subjectActions';
 
 // App initialize with data
 export const appInit = () => dispatch => {
   // Removing all data (if have)
   dispatch(clearErrors());
   dispatch({ type: RESET_PROFILE_REDUCER });
+  dispatch(resetTeachersData());
 
   // Start the loader (don't start it before cleaning)
   dispatch(setProfileLoading());
@@ -32,6 +35,7 @@ export const appInit = () => dispatch => {
           type: GET_PROFILES,
           payload: allProfiles
         });
+        dispatch(getTeachers());
 
         dispatch({ type: STOP_LOADING });
       })

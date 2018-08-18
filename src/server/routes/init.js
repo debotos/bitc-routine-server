@@ -2,6 +2,8 @@ const auth = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
+const Teacher = require('../models/teacher');
+const Subject = require('../models/subject');
 const router = require('express').Router();
 const async = require('async');
 
@@ -39,6 +41,34 @@ router.get('/', auth, (req, res) => {
             callback(null, profiles);
           })
           .catch(err => callback(null, { profiles: 'There are no profiles' }));
+      },
+      subjects: function(callback) {
+        const errors = {};
+        Subject.find()
+          .then(subjects => {
+            if (!subjects) {
+              errors.noSubjects = 'There are no subjects';
+              callback(null, errors);
+            }
+            callback(null, subjects);
+          })
+          .catch(err =>
+            callback(null, { noSubjects: 'There are no subjects' })
+          );
+      },
+      teachers: function(callback) {
+        const errors = {};
+        Teacher.find()
+          .then(teachers => {
+            if (!teachers) {
+              errors.noTeachers = 'There are no teachers';
+              callback(null, errors);
+            }
+            callback(null, teachers);
+          })
+          .catch(err =>
+            callback(null, { noTeachers: 'There are no teachers' })
+          );
       }
     },
     function(err, results) {
