@@ -86,10 +86,10 @@ class Register extends Component {
               <p className="subtitle has-text-grey">
                 Register a new admin account.
               </p>
-              {errors.msg && (
+              {errors.successMsg && (
                 <Notification isColor="info">
                   <Delete onClick={() => this.setState({ errors: {} })} />
-                  <Title isSize={6}>{errors.msg}</Title>
+                  <Title isSize={6}>{errors.successMsg}</Title>
                 </Notification>
               )}
               <Help style={{ fontWeight: 500 }} isColor="danger" />

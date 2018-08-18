@@ -82,7 +82,7 @@ router.get('/all', auth, (req, res) => {
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post('/register', async (req, res) => {
+router.post('/register', auth, async (req, res) => {
   const { errors, isValid } = validateSignUpInput(req.body);
   // Check Validation
   if (!isValid) return res.status(400).json(errors);
@@ -99,7 +99,7 @@ router.post('/register', async (req, res) => {
   );
   res.json({
     success: true,
-    msg: '👨‍ Successfully registered a new admin account ✔ ',
+    successMsg: '👨‍ Successfully registered a new admin account ✔ ',
     userData
   });
 });

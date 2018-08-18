@@ -47,7 +47,7 @@ class OthersProfile extends Component {
         _.size(
           // checking errors obj size
           _.pick(this.state.errors, [
-            // pick only the actual error not msg field that i tricked
+            // pick only the actual error not successMsg field that i tricked
             'name',
             'img',
             'email',
@@ -81,7 +81,7 @@ class OthersProfile extends Component {
           <p className="subtitle has-text-grey">
             Register a new admin account.
           </p>
-          {errors.msg && (
+          {errors.successMsg && (
             <Notification isColor="info">
               <Delete
                 onClick={() => {
@@ -89,7 +89,7 @@ class OthersProfile extends Component {
                   this.props.clearErrors();
                 }}
               />
-              <Title isSize={6}>{errors.msg}</Title>
+              <Title isSize={6}>{errors.successMsg}</Title>
             </Notification>
           )}
           <div className="box">
