@@ -4,7 +4,6 @@ import { appInit } from '../../redux/actions/init';
 
 import NavBar from '../Navbar/Navbar';
 import Spinner from '../common/Spinner';
-import TabBar from './TabBar';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -28,7 +27,7 @@ class Dashboard extends Component {
     ) : (
       <div>
         <NavBar user={profile} />
-        <TabBar />
+        Dashboard
       </div>
     );
   }

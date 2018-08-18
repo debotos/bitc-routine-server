@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
     maxlength: 1024
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
   // , isAdmin: Boolean // Manage User Permission
 });

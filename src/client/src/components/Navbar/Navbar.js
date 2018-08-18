@@ -37,8 +37,7 @@ class NavBar extends Component {
             <NavbarItem
               id="sitelogo"
               onClick={() => {
-                // console.log(history);
-                history.push('/');
+                history.push('/dashboard');
               }}
             >
               <div className="logo" />
