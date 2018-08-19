@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { clearErrors } from '../../../redux/actions/profileActions';
 import { addTeacher } from '../../../redux/actions/teacherActions';
+import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
 class AddTeacher extends Component {
   componentWillReceiveProps(nextProps) {
@@ -125,15 +126,19 @@ class AddTeacher extends Component {
           </label>
         </td>
         <td>
-          <Button
-            style={{ margin: '3px 0' }}
-            isColor="info"
-            isOutlined
-            disabled={!this.state.name || !this.state.code}
-            onClick={this.handleAdd}
-          >
-            {this.state.teacherBtnLoading ? 'working...' : 'Add'}
-          </Button>
+          {this.state.teacherBtnLoading ? (
+            <ButtonAltSpinner color="#209CEE" />
+          ) : (
+            <Button
+              style={{ margin: '3px 0' }}
+              isColor="info"
+              isOutlined
+              disabled={!this.state.name || !this.state.code}
+              onClick={this.handleAdd}
+            >
+              {this.state.teacherBtnLoading ? 'working...' : 'Add'}
+            </Button>
+          )}
         </td>
       </tr>
     );

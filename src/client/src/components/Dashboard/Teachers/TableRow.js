@@ -8,6 +8,7 @@ import {
   removeTeacher,
   updateTeacher
 } from '../../../redux/actions/teacherActions';
+import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
 class TableRow extends Component {
   componentWillReceiveProps(nextProps) {
@@ -162,19 +163,26 @@ class TableRow extends Component {
           </label>
         </td>
         <td>
-          {this.state.isEdited && (
-            <Button
-              style={{ margin: '3px 0' }}
-              isColor="warning"
-              onClick={this.handleUpdate}
-              isOutlined
-            >
-              {this.state.updateBtnLoading ? 'working...' : 'Update'}
+          {this.state.isEdited &&
+            (this.state.updateBtnLoading ? (
+              <ButtonAltSpinner color="#FFDD57" />
+            ) : (
+              <Button
+                style={{ margin: '3px 0' }}
+                isColor="warning"
+                onClick={this.handleUpdate}
+                isOutlined
+              >
+                {this.state.updateBtnLoading ? 'working...' : 'Update'}
+              </Button>
+            ))}
+          {this.state.deleteBtnLoading ? (
+            <ButtonAltSpinner color=" #FF3860" />
+          ) : (
+            <Button isColor="danger" onClick={this.handleDelete} isOutlined>
+              {this.state.deleteBtnLoading ? 'working...' : 'Delete'}
             </Button>
           )}
-          <Button isColor="danger" onClick={this.handleDelete} isOutlined>
-            {this.state.deleteBtnLoading ? 'working...' : 'Delete'}
-          </Button>
         </td>
       </tr>
     );
