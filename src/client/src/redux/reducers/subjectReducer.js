@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
       if (state['subjects'] === null) {
         newSubjects = [action.payload];
       } else {
-        newSubjects = [...state['subjects'], action.payload];
+        newSubjects = [action.payload, ...state['subjects']];
       }
       return {
         ...state,
@@ -47,7 +47,7 @@ export default function(state = initialState, action) {
       if (state['subjects'] === null) {
         subjects = [...action.payload];
       } else {
-        subjects = [...state['subjects'], ...action.payload];
+        subjects = [...action.payload, ...state['subjects']];
       }
       return {
         ...state,

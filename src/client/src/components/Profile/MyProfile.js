@@ -16,7 +16,8 @@ class MyProfile extends Component {
       cpassword: '',
       password: '',
       password2: '',
-      errors: {}
+      errors: {},
+      myProfileUpdateBtnLoading: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -31,6 +32,7 @@ class MyProfile extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ myProfileUpdateBtnLoading: true });
     this.setState({ errors: {} });
     this.props.clearErrors();
     const newUser = {
@@ -66,6 +68,7 @@ class MyProfile extends Component {
         });
         this.props.logoutUser();
       }
+      this.setState({ myProfileUpdateBtnLoading: false });
     }, 3000); // Clean all fields value after 3 sec of submitting form
   }
 
@@ -78,8 +81,14 @@ class MyProfile extends Component {
     return (
       <div className="columns">
         <div className="column is-4 is-offset-4">
-          <h3 className="title has-text-grey">Your Profile</h3>
-          <p className="subtitle has-text-grey">Update your profile details.</p>
+          <h3 className="title has-text-grey">Update Your Profile</h3>
+          <p className="subtitle has-text-grey">
+            N.B. Login Required after successful Updating process&nbsp;&nbsp;
+            <span aria-label="subject" role="img">
+              ✋
+            </span>
+          </p>
+
           {errors.msg && (
             <Notification isColor="info">
               <Delete onClick={() => this.setState({ errors: {} })} />
@@ -184,6 +193,7 @@ class MyProfile extends Component {
                 isColor="info"
                 isSize="large"
                 type="submit"
+                isLoading={this.state.myProfileUpdateBtnLoading}
               >
                 Update Profile
               </Button>

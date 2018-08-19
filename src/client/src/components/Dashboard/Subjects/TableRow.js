@@ -5,9 +5,9 @@ import _ from 'lodash';
 
 import { clearErrors } from '../../../redux/actions/profileActions';
 import {
-  removeTeacher,
-  updateTeacher
-} from '../../../redux/actions/teacherActions';
+  removeSubject,
+  updateSubject
+} from '../../../redux/actions/subjectActions';
 import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
 class TableRow extends Component {
@@ -25,12 +25,7 @@ class TableRow extends Component {
       }
     }
     if (nextProps.data) {
-      let propsUpdate = _.pick(nextProps.data, [
-        '_id',
-        'name',
-        'code',
-        'guest'
-      ]);
+      let propsUpdate = _.pick(nextProps.data, ['_id', 'title', 'code']);
       this.setState({ id: propsUpdate._id, ...propsUpdate });
       this.setState({
         updateBtnLoading: false,
@@ -40,18 +35,13 @@ class TableRow extends Component {
     }
   }
   onChange(e) {
-    let value;
-    if (e.target.name.toString() === 'guest') {
-      value = e.target.checked;
-    } else {
-      value = e.target.value;
-    }
+    let value = e.target.value;
     // console.log([e.target.name], value);
     this.setState({ [e.target.name]: value }, () => {
       if (
-        this.state['name'].toString() === this.props.data['name'].toString() &&
-        this.state['code'].toString() === this.props.data['code'].toString() &&
-        this.state['guest'].toString() === this.props.data['guest'].toString()
+        this.state['title'].toString() ===
+          this.props.data['title'].toString() &&
+        this.state['code'].toString() === this.props.data['code'].toString()
       ) {
         this.setState({ isEdited: false });
       } else {
@@ -64,22 +54,22 @@ class TableRow extends Component {
     this.setState({ deleteBtnLoading: true });
     setTimeout(() => {
       this.props.clearErrors();
-      this.props.removeTeacher(this.state.id);
+      this.props.removeSubject(this.state.id);
     }, 1000);
   };
   handleUpdate = () => {
     this.setState({ updateBtnLoading: true });
     this.setState({ errors: {} });
     this.props.clearErrors();
-    let update = _.pick(this.state, ['name', 'code', 'guest']);
-    this.props.updateTeacher(this.state.id, update);
+    let update = _.pick(this.state, ['title', 'code']);
+    this.props.updateSubject(this.state.id, update);
     setTimeout(() => {
       if (
         _.size(
           // checking errors obj size
           _.pick(this.state.errors, [
             // pick only the actual error not successMsg field that i tricked
-            'name',
+            'title',
             'code'
           ])
         ) === 0 // if error obj === 0 then clean else not
@@ -95,9 +85,8 @@ class TableRow extends Component {
     super(props);
     this.state = {
       id: this.props.data._id,
-      name: this.props.data.name,
+      title: this.props.data.title,
       code: this.props.data.code,
-      guest: this.props.data.guest,
       isEdited: false,
       errors: {},
       updateBtnLoading: false,
@@ -109,8 +98,8 @@ class TableRow extends Component {
     // this.onSubmit = this.onSubmit.bind(this);
   }
   render() {
-    // let teacher = this.props.data;
-    // console.log(teacher);
+    // let subject = this.props.data;
+    // console.log(subject);
 
     const { errors } = this.state;
     return (
@@ -120,15 +109,15 @@ class TableRow extends Component {
             <div className="control">
               <Input
                 type="text"
-                name="name"
-                placeholder="Teacher Name"
-                value={this.state.name}
+                name="title"
+                placeholder="Subject Name"
+                value={this.state.title}
                 onChange={this.onChange}
               />
             </div>
             {this.state.showWarnings && (
               <Help style={{ fontWeight: 500 }} isColor="danger">
-                {errors.name}
+                {errors.title}
               </Help>
             )}
           </div>
@@ -139,7 +128,7 @@ class TableRow extends Component {
               <Input
                 type="text"
                 name="code"
-                placeholder="Code Name"
+                placeholder="Course Code"
                 value={this.state.code}
                 onChange={this.onChange}
               />
@@ -150,17 +139,6 @@ class TableRow extends Component {
               </Help>
             )}
           </div>
-        </td>
-        <td>
-          <label>
-            <input
-              type="checkbox"
-              name="guest"
-              checked={this.state.guest}
-              onChange={this.onChange}
-            />
-            <span>&nbsp;{this.state.guest ? 'Yes' : 'No'}</span>
-          </label>
         </td>
         <td style={{ minWidth: '11.2rem' }}>
           <div style={{ display: 'flex' }}>
@@ -194,12 +172,12 @@ class TableRow extends Component {
 const mapStateToProps = state => {
   return {
     errors: state.errors,
-    teachers: state.teachers.teachers
+    subjects: state.subjects.subjects
   };
 };
 
 export default connect(mapStateToProps, {
-  removeTeacher,
-  updateTeacher,
+  removeSubject,
+  updateSubject,
   clearErrors
 })(TableRow);

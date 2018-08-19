@@ -127,6 +127,7 @@ class OthersProfileList extends Component {
                           id={singleItem.email}
                           name={singleItem.name}
                           onClick={e => {
+                            this.props.clearErrors();
                             this.setState({ modal: true });
                             this.setState({ deleteUser: e.target.id });
                             this.setState({ deleteUserName: e.target.name });

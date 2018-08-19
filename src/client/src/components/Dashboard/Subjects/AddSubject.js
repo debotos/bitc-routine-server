@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { clearErrors } from '../../../redux/actions/profileActions';
-import { addTeacher } from '../../../redux/actions/teacherActions';
+import { addSubject } from '../../../redux/actions/subjectActions';
 import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
-class AddTeacher extends Component {
+class AddSubject extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -19,12 +19,7 @@ class AddTeacher extends Component {
   onChange(e) {
     this.props.clearErrors();
     this.setState({ errors: {} });
-    let value;
-    if (e.target.name.toString() === 'guest') {
-      value = e.target.checked;
-    } else {
-      value = e.target.value;
-    }
+    let value = e.target.value;
     // console.log([e.target.name], value);
     this.setState({ [e.target.name]: value }, () => {
       this.setState({ isAddFormEdited: true });
@@ -33,42 +28,40 @@ class AddTeacher extends Component {
 
   handleAdd = e => {
     e.preventDefault();
-    this.setState({ teacherBtnLoading: true });
+    this.setState({ subjectBtnLoading: true });
     this.setState({ errors: {} });
     this.props.clearErrors();
     this.setState({ isAddFormEdited: true });
-    let teacher = _.pick(this.state, ['name', 'code', 'guest']);
-    this.props.addTeacher(teacher);
+    let subject = _.pick(this.state, ['title', 'code']);
+    this.props.addSubject(subject);
     setTimeout(() => {
       if (
         _.size(
           // checking errors obj size
           _.pick(this.state.errors, [
             // pick only the actual error not successMsg field that i tricked
-            'name',
+            'title',
             'code'
           ])
         ) === 0 // if error obj === 0 then clean else not
       ) {
-        this.setState({ name: '' });
+        this.setState({ title: '' });
         this.setState({ code: '' });
-        this.setState({ guest: false });
         this.setState({ errors: {} });
         this.props.clearErrors();
         this.setState({ isAddFormEdited: false });
       }
-      this.setState({ teacherBtnLoading: false });
+      this.setState({ subjectBtnLoading: false });
     }, 2000);
   };
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      title: '',
       code: '',
-      guest: false,
       isAddFormEdited: false,
       errors: {},
-      teacherBtnLoading: false
+      subjectBtnLoading: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -83,15 +76,15 @@ class AddTeacher extends Component {
             <div className="control">
               <Input
                 type="text"
-                name="name"
-                placeholder="Teacher Name"
-                value={this.state.name}
+                name="title"
+                placeholder="Subject Name"
+                value={this.state.title}
                 onChange={this.onChange}
               />
             </div>
             {this.state.isAddFormEdited && (
               <Help style={{ fontWeight: 500 }} isColor="danger">
-                {errors.name}
+                {errors.title}
               </Help>
             )}
           </div>
@@ -102,7 +95,7 @@ class AddTeacher extends Component {
               <Input
                 type="text"
                 name="code"
-                placeholder="Code Name"
+                placeholder="Course Code"
                 value={this.state.code}
                 onChange={this.onChange}
               />
@@ -115,28 +108,17 @@ class AddTeacher extends Component {
           </div>
         </td>
         <td>
-          <label>
-            <input
-              type="checkbox"
-              name="guest"
-              checked={this.state.guest}
-              onChange={this.onChange}
-            />
-            <span>&nbsp;{this.state.guest ? 'Yes' : 'No'}</span>
-          </label>
-        </td>
-        <td>
-          {this.state.teacherBtnLoading ? (
+          {this.state.subjectBtnLoading ? (
             <ButtonAltSpinner color="#209CEE" />
           ) : (
             <Button
               style={{ margin: '3px 0' }}
               isColor="info"
               isOutlined
-              disabled={!this.state.name || !this.state.code}
+              disabled={!this.state.title || !this.state.code}
               onClick={this.handleAdd}
             >
-              {this.state.teacherBtnLoading ? 'working...' : 'Add Teacher'}
+              {this.state.subjectBtnLoading ? 'working...' : 'Add Subject'}
             </Button>
           )}
         </td>
@@ -152,6 +134,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  addTeacher,
+  addSubject,
   clearErrors
-})(AddTeacher);
+})(AddSubject);

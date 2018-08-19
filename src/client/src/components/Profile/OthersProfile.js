@@ -17,7 +17,8 @@ class OthersProfile extends Component {
       img: '',
       password: '',
       password2: '',
-      errors: {}
+      errors: {},
+      othersProfileAddBtnLoading: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -31,6 +32,7 @@ class OthersProfile extends Component {
   }
 
   onSubmit(e) {
+    this.setState({ othersProfileAddBtnLoading: true });
     e.preventDefault();
     this.setState({ errors: {} });
     this.props.clearErrors();
@@ -64,6 +66,7 @@ class OthersProfile extends Component {
           password2: ''
         });
       }
+      this.setState({ othersProfileAddBtnLoading: false });
     }, 3000); // Clean all fields value after 3 sec of submitting form
   }
 
@@ -187,6 +190,7 @@ class OthersProfile extends Component {
                 isColor="info"
                 isSize="large"
                 type="submit"
+                isLoading={this.state.othersProfileAddBtnLoading}
               >
                 Add New Admin
               </Button>

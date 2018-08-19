@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Button } from 'bloomer';
+import { Table, Container, Columns, Column } from 'bloomer';
+
+import TableBody from './TableBody';
 
 export default class Subjects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false
-    };
-  }
   render() {
     return (
-      <div>
-        <Button
-          isColor="info"
-          isOutlined
-          isLoading={this.state.loading}
-          onClick={() => this.setState({ loading: true })}
-        >
-          show loading
-        </Button>
-      </div>
+      <Container>
+        <Columns isCentered>
+          <Column isSize="1/2">
+            <Table isBordered isStriped isNarrow>
+              <thead>
+                <tr>
+                  <th>Subject Title</th>
+                  <th>Course Code</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <TableBody />
+            </Table>
+          </Column>
+        </Columns>
+      </Container>
     );
   }
 }

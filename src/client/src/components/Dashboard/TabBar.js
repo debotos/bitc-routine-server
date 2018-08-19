@@ -36,15 +36,15 @@ class TabBar extends Component {
           <Tabs isAlign="centered" isBoxed={true}>
             <TabList isAlign="centered">
               <CustomTab to="/dashboard" label="Routine" clear={clearErrors} />
-              <CustomTab to="/music" label="Semester" clear={clearErrors} />
-              <CustomTab to="/video" label="Subjects" clear={clearErrors} />
+              <CustomTab to="/semester" label="Semester" clear={clearErrors} />
+              <CustomTab to="/subjects" label="Subjects" clear={clearErrors} />
               <CustomTab to="/documents" label="Teachers" clear={clearErrors} />
             </TabList>
           </Tabs>
-          <Route path="/dashboard" component={Teachers} />
-          <Route path="/music" component={Semester} />
-          <Route path="/video" component={Subjects} />
-          <Route path="/documents" component={Routine} />
+          <Route path="/dashboard" component={Semester} />
+          <Route path="/semester" component={Routine} />
+          <Route path="/subjects" component={Subjects} />
+          <Route path="/documents" component={Teachers} />
         </div>
       </Router>
     );

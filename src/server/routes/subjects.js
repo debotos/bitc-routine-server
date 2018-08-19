@@ -80,7 +80,7 @@ router.delete('/:id', auth, (req, res) => {
 router.post('/:id', auth, (req, res) => {
   const { errors, isValid } = validateSubjectInput(req.body);
   // Check Validation
-  if (!isValid) return res.status(400).json(errors);
+  if (!isValid) return res.status(400).json({ id: req.params.id, ...errors });
 
   Subject.findOne({ code: req.body.code }).then(codeExist => {
     console.log('subject code already or not ', codeExist);
