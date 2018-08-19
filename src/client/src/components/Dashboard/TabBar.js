@@ -21,7 +21,7 @@ const CustomTab = ({ label, to, activeOnlyWhenExact, clear }) => (
       <Tab isActive={match} onClick={() => clear()}>
         {/* cleaning global all errors so that one tab's error doesn't affect another tab */}
         <Link to={to}>
-          <span>{label}</span>
+          <span style={{ fontWeight: 600 }}>{label}</span>
         </Link>
       </Tab>
     )}

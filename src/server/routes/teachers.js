@@ -80,7 +80,7 @@ router.post('/:id', auth, (req, res) => {
   // console.log('Req body -> ', req.body);
   const { errors, isValid } = validateTeacherInput(req.body);
   // Check Validation
-  if (!isValid) return res.status(400).json(errors);
+  if (!isValid) return res.status(400).json({ id: req.params.id, ...errors });
 
   Teacher.findOne({ code: req.body.code }).then(codeExist => {
     // console.log('subject code already or not ', codeExist);

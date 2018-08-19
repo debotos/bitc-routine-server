@@ -17,12 +17,17 @@ export default function(state = initialState, action) {
       return initialState;
     case ADD_TEACHER:
       // action.payload is an obj
+      // console.log(action.payload);
+      // console.log('state', state['teachers']);
+
       let newTeachers;
       if (state['teachers'] === null) {
         newTeachers = [action.payload];
       } else {
-        newTeachers = [...state['teachers'], action.payload];
+        newTeachers = [action.payload, ...state['teachers']];
       }
+      // console.log('after calc', newTeachers);
+
       return {
         ...state,
         teachers: newTeachers
@@ -47,7 +52,7 @@ export default function(state = initialState, action) {
       if (state['teachers'] === null) {
         teachers = [...action.payload];
       } else {
-        teachers = [...state['teachers'], ...action.payload];
+        teachers = [...action.payload, ...state['teachers']];
       }
       return {
         ...state,
