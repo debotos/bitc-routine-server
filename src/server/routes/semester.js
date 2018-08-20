@@ -99,6 +99,37 @@ router.delete('/:id', auth, (req, res) => {
   });
 });
 
+// @route   DELETE api/semester/:id/courses/delete/:course_id
+// @desc    Delete a single courses from a particular semester
+// @access  Private
+// @return  res contains array[{},{},{}] of current courses belongs to this :id
+router.delete('/:id/courses/delete/:course_id', auth, (req, res) => {
+  Semester.findOne({ _id: req.params.id })
+    .then(semester => {
+      // Get Delete Item index
+      const deleteIndex = semester.courses
+        .map(item => {
+          // console.log('[id works without _id] Item ID => ', item.id);
+          return item.id;
+        })
+        .indexOf(req.params.course_id);
+      // console.log('deleteIndex of this ID', deleteIndex);
+      if (deleteIndex === -1) {
+        return res.status(404).json({ error: 'No data found of this course' });
+      }
+      // update value
+      let currentData = semester.courses[deleteIndex];
+      // console.log('Course Data is going to delete', currentData);
+
+      // Splice out of array
+      semester.courses.splice(deleteIndex, 1);
+
+      // save update & return
+      semester.save().then(doc => res.json(doc.courses));
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 /* UPDATE */
 // @route   POST api/semester/:id
 // @desc    Update a semester name
@@ -133,6 +164,48 @@ router.post('/:id', auth, (req, res) => {
       ).then(semester => res.json(semester));
     }
   });
+});
+
+// @route   POST api/semester/:id/courses/edit/:course_id
+// @desc    Edit a single courses of a particular semester
+// @access  Private
+// @return  res contains array[{},{},{}] of updated courses belongs to this :id
+router.post('/:id/courses/edit/:course_id', auth, (req, res) => {
+  // console.log('Req body -> ', req.body);
+  const { errors, isValid } = validateCoursesInput(req.body);
+  // Because of this validation check all fields is required
+  // If you don't want it just comment out the validation code and
+  // at the update time check if it's available or not in the req.body
+  // like, if (req.body.subject.title) { currentData.subject.title = req.body.subject.title }
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
+
+  Semester.findOne({ _id: req.params.id })
+    .then(semester => {
+      // req.body contains an obj of { subject: {title, code}, teacher: {name, code, guest} }
+      // Get Update index
+      const updateIndex = semester.courses
+        .map(item => {
+          // console.log('[id works without _id] Item ID => ', item.id);
+          return item.id;
+        })
+        .indexOf(req.params.course_id);
+      // console.log('updateIndex of this ID', updateIndex);
+      if (updateIndex === -1) {
+        return res.status(404).json({ error: 'No data found of this course' });
+      }
+      // update value
+      let currentData = semester.courses[updateIndex];
+      // console.log('Data of this ID', currentData);
+      currentData.subject.title = req.body.subject.title;
+      currentData.subject.code = req.body.subject.code;
+      currentData.teacher.name = req.body.teacher.name;
+      currentData.teacher.code = req.body.teacher.code;
+      currentData.teacher.guest = req.body.teacher.guest;
+      // save update & return
+      semester.save().then(doc => res.json(doc.courses));
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 module.exports = router;
