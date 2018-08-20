@@ -1,0 +1,10 @@
+.semester-name {
+  font-weight: 500;
+}
+
+.semester-name:hover,
+.semester-name:active {
+  font-weight: 600;
+  cursor: pointer;
+  color: #209CEE;
+}

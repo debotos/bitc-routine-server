@@ -7,15 +7,17 @@ import {
   Control,
   Input,
   Icon,
-  Checkbox,
-  PanelIcon,
   Button
 } from 'bloomer';
+import { connect } from 'react-redux';
+import './semester.css';
 
 import AddSemester from './AddSemester';
+import SemesterListItem from './SemesterListItem';
 
-export default class Semester extends Component {
+class Semester extends Component {
   render() {
+    let semesters = this.props.semesters.semesterArray;
     return (
       <Container isFluid style={{ marginTop: 10 }}>
         <Columns>
@@ -26,38 +28,21 @@ export default class Semester extends Component {
               <PanelHeading>List of All Semester</PanelHeading>
               <PanelBlock>
                 <Control hasIcons="left">
-                  <Input isSize="small" placeholder="Search" />
-                  <Icon isSize="small" isAlign="left">
+                  <Input isSize="medium" placeholder="Search" />
+                  <Icon isSize="medium" isAlign="left">
                     <span className="fa fa-search" aria-hidden="true" />
                   </Icon>
                 </Control>
               </PanelBlock>
-              {/* below render a Panel with search result */}
+              {/* below rendering a Panel with search result */}
               <Panel>
-                <PanelBlock isActive>
-                  <PanelIcon className="fas fa-book-open" />
-                  Bloomer
-                </PanelBlock>
-                <PanelBlock>
-                  <PanelIcon className="fas fa-book-open" />
-                  RxJS
-                </PanelBlock>
-                <PanelBlock>
-                  <PanelIcon className="fas fa-book-open" />
-                  Webpack
-                </PanelBlock>
-                <PanelBlock>
-                  <PanelIcon className="fas fa-book-open" />
-                  Typescript
-                </PanelBlock>
-                <PanelBlock tag="label">
-                  <Checkbox> Remember me</Checkbox>
-                </PanelBlock>
-                <PanelBlock>
-                  <Button isOutlined isFullWidth isColor="primary">
-                    Reset all filters
-                  </Button>
-                </PanelBlock>
+                {semesters ? (
+                  semesters.map((semester, index) => (
+                    <SemesterListItem key={index} semester={semester} />
+                  ))
+                ) : (
+                  <p>No Semester Available! Add New !</p>
+                )}
               </Panel>
             </Panel>
           </Column>
@@ -72,3 +57,10 @@ export default class Semester extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    semesters: state.semesters
+  };
+};
+export default connect(mapStateToProps, null)(Semester);

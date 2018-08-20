@@ -58,7 +58,7 @@ class AddTeacher extends Component {
         this.setState({ isAddFormEdited: false });
       }
       this.setState({ teacherBtnLoading: false });
-    }, 2000);
+    }, 3000);
   };
   constructor(props) {
     super(props);

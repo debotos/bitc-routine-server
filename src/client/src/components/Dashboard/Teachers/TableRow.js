@@ -178,7 +178,7 @@ class TableRow extends Component {
                 </Button>
               ))}
             {this.state.deleteBtnLoading ? (
-              <ButtonAltSpinner color=" #FF3860" />
+              <ButtonAltSpinner color="#FF3860" />
             ) : (
               <Button isColor="danger" onClick={this.handleDelete} isOutlined>
                 {this.state.deleteBtnLoading ? 'working...' : 'Delete'}

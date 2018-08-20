@@ -18,12 +18,16 @@ router.post('/add', auth, (req, res) => {
   Semester.findOne({ name: req.body.name }).then(nameExist => {
     // console.log('semester name already or not ', nameExist);
     if (nameExist) {
-      return res.status(400).send({ name: `Sorry! This Name already used !` });
+      return res
+        .status(400)
+        .send({ semesterName: `Sorry ! Semester Name already used !` });
     } else {
       semester = new Semester(_.pick(req.body, ['name']));
       semester.save(function(err, newSemester) {
         if (err) {
-          return res.status(404).json({ error: 'Filed to add semester' });
+          return res
+            .status(404)
+            .json({ semesterName: 'Filed to add semester' });
         } else {
           return res.json(newSemester);
         }
@@ -140,23 +144,25 @@ router.post('/:id', auth, (req, res) => {
   if (!isValid) return res.status(400).json({ id: req.params.id, ...errors });
 
   Semester.findOne({ name: req.body.name }).then(nameExist => {
-    console.log('semester name already or not ', nameExist);
+    // console.log('semester name already or not ', nameExist);
     if (nameExist) {
       // it returns null if no result found
       if (nameExist._id.toString() === req.params.id.toString()) {
         const semesterFields = _.pick(req.body, ['name']);
-        console.log('Semester Update data => ', semesterFields);
+        // console.log('Semester Update data => ', semesterFields);
         Semester.findOneAndUpdate(
           { _id: req.params.id },
           { $set: semesterFields },
           { new: true }
         ).then(semester => res.json(semester));
       } else {
-        return res.status(400).send({ name: `Name already used !` });
+        return res
+          .status(400)
+          .send({ semesterName: `Sorry! Semester Name already used !` });
       }
     } else {
       const semesterFields = _.pick(req.body, ['name']);
-      console.log('Semester Update data => ', semesterFields);
+      // console.log('Semester Update data => ', semesterFields);
       Semester.findOneAndUpdate(
         { _id: req.params.id },
         { $set: semesterFields },

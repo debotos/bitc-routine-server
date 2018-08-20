@@ -143,9 +143,7 @@ class OthersProfileList extends Component {
                       <ModalBackground />
                       <ModalCard>
                         <ModalCardHeader>
-                          <ModalCardTitle>
-                            {this.state.deleteUserName} Password :
-                          </ModalCardTitle>
+                          <ModalCardTitle>Authentication</ModalCardTitle>
                           <Delete
                             onClick={() => {
                               this.props.clearErrors();
@@ -161,6 +159,13 @@ class OthersProfileList extends Component {
                         <ModalCardBody>
                           {/* Content  */}
                           <div className="field">
+                            <label>
+                              Provide password of{' '}
+                              <span style={{ fontWeight: 700 }}>
+                                {this.state.deleteUserName}
+                              </span>{' '}
+                              :
+                            </label>
                             <div className="control">
                               <input
                                 style={{ fontWeight: 500 }}

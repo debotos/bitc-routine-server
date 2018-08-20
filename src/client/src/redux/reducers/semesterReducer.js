@@ -60,11 +60,11 @@ export default function(state = initialState, action) {
       };
     case REMOVE_SEMESTER:
       let res = action.payload.removedSemester;
-      console.log('Before semester delete ', state['semesterArray']);
+      // console.log('Before semester delete ', state['semesterArray']);
       let allsemesterArray = state['semesterArray'].filter(
         singleItem => singleItem._id.toString() !== res._id.toString()
       );
-      console.log('After semester delete ', allsemesterArray);
+      // console.log('After semester delete ', allsemesterArray);
       return {
         ...state,
         semesterArray: allsemesterArray

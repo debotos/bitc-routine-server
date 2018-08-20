@@ -9,11 +9,11 @@ module.exports = function validateSemesterInput(data) {
   data.name = !isEmpty(data.name) ? data.name : '';
 
   if (!Validator.isLength(data.name, { min: 2, max: 100 })) {
-    errors.name = 'Semester name must be between 2 and 100 characters';
+    errors.semesterName = 'Semester name must be between 2 and 100 characters';
   }
 
   if (Validator.isEmpty(data.name)) {
-    errors.name = 'Semester name field is required';
+    errors.semesterName = 'Semester name field is required';
   }
 
   return {
