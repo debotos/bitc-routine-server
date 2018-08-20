@@ -4,7 +4,9 @@ import {
   Field,
   Label,
   PanelBlock,
+  Column,
   Control,
+  Title,
   Input,
   Icon,
   PanelIcon,
@@ -16,7 +18,10 @@ import {
   ModalCardTitle,
   Delete,
   ModalCardBody,
-  ModalCardFooter
+  ModalCardFooter,
+  ModalClose,
+  ModalContent,
+  Notification
 } from 'bloomer';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
@@ -124,7 +129,8 @@ class SemesterListItem extends Component {
       level: '',
       superscript: '',
       errorMsg: '',
-      deleteBtnLoading: false
+      deleteBtnLoading: false,
+      showDeleteModel: false
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -161,26 +167,64 @@ class SemesterListItem extends Component {
             >
               Edit
             </Button>
-            {this.state.deleteBtnLoading ? (
-              <Spinner color="#FF3860" />
-            ) : (
-              <Button
-                isColor="danger"
-                isOutlined
-                onClick={() => {
-                  this.setState({ deleteBtnLoading: true });
-                  setTimeout(() => {
-                    this.props.clearErrors();
-                    this.props.removeSemester(semester._id);
-                    this.setState({ deleteBtnLoading: false });
-                  }, 1000);
-                }}
-              >
-                Delete
-              </Button>
-            )}
+            <Button
+              isColor="danger"
+              isOutlined
+              onClick={() => this.setState({ showDeleteModel: true })}
+            >
+              Delete
+            </Button>
           </div>
         </div>
+
+        {/* delete confirm model */}
+
+        <Modal isActive={this.state.showDeleteModel}>
+          <ModalBackground />
+          <ModalContent>
+            <Notification isColor="danger">
+              <Delete
+                onClick={() => {
+                  this.setState({ showDeleteModel: false });
+                  this.props.clearErrors();
+                  this.setState({ deleteBtnLoading: false });
+                }}
+              />
+              <Column hasTextAlign="centered">
+                <Title isSize={3}>
+                  Delete{' '}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(semester.name)
+                    }}
+                  />{' '}
+                  ? Are you sure ?
+                </Title>
+
+                {this.state.deleteBtnLoading ? (
+                  <Spinner color="#FFDD57" />
+                ) : (
+                  <Button
+                    isColor="warning"
+                    isOutlined
+                    onClick={() => {
+                      this.setState({ deleteBtnLoading: true });
+                      setTimeout(() => {
+                        this.props.clearErrors();
+                        this.props.removeSemester(semester._id);
+                        this.setState({ deleteBtnLoading: false });
+                        this.setState({ showDeleteModel: false });
+                      }, 2000);
+                    }}
+                  >
+                    Confirm Delete
+                  </Button>
+                )}
+              </Column>
+            </Notification>
+          </ModalContent>
+          <ModalClose />
+        </Modal>
 
         {/* Update Form Model */}
 
@@ -192,7 +236,7 @@ class SemesterListItem extends Component {
                 <ModalCardTitle>
                   Update{' '}
                   <span
-                    style={{ fontWeight: 700 }}
+                    style={{ fontWeight: 700, color: '#1ECD97' }}
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(semester.name)
                     }}

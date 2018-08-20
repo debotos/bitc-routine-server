@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import { Container, Notification, Columns, Column } from 'bloomer';
-import {
-  Panel,
-  PanelHeading,
-  PanelBlock,
-  Control,
-  Input,
-  Icon,
-  Button
-} from 'bloomer';
+import { Panel, PanelHeading, PanelBlock, Control, Input, Icon } from 'bloomer';
 import { connect } from 'react-redux';
-import './semester.css';
+import { setTextFilter } from '../../../redux/actions/filters';
 
+import './semester.css';
 import AddSemester from './AddSemester';
 import SemesterListItem from './SemesterListItem';
+import { FilterSemester } from '../../../utils/selectors';
 
 class Semester extends Component {
+  onTextChange = e => {
+    this.props.setTextFilter(e.target.value.toUpperCase());
+  };
   render() {
-    let semesters = this.props.semesters.semesterArray;
+    let semesters = this.props.semesters;
+    // console.log(semesters);
     return (
       <Container isFluid style={{ marginTop: 10 }}>
         <Columns>
@@ -28,13 +26,19 @@ class Semester extends Component {
               <PanelHeading>List of All Semester</PanelHeading>
               <PanelBlock>
                 <Control hasIcons="left">
-                  <Input isSize="medium" placeholder="Search" />
+                  <Input
+                    style={{ textTransform: 'uppercase' }}
+                    isSize="medium"
+                    placeholder="Search (N.B. Case-Sensitive)"
+                    onChange={this.onTextChange}
+                  />
                   <Icon isSize="medium" isAlign="left">
                     <span className="fa fa-search" aria-hidden="true" />
                   </Icon>
                 </Control>
               </PanelBlock>
-              {/* below rendering a Panel with search result */}
+              {/* below rendering a Panel with filter/search result */}
+              {/* all semester list start, i will call it <SemesterList> component */}
               <Panel>
                 {semesters ? (
                   semesters.map((semester, index) => (
@@ -44,6 +48,7 @@ class Semester extends Component {
                   <p>No Semester Available! Add New !</p>
                 )}
               </Panel>
+              {/*end of all semester list </SemesterList> */}
             </Panel>
           </Column>
           <Column>
@@ -60,7 +65,7 @@ class Semester extends Component {
 
 const mapStateToProps = state => {
   return {
-    semesters: state.semesters
+    semesters: FilterSemester(state.semesters.semesterArray, state.filters)
   };
 };
-export default connect(mapStateToProps, null)(Semester);
+export default connect(mapStateToProps, { setTextFilter })(Semester);
