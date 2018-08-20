@@ -4,11 +4,13 @@ import errorReducer from './errorReducer';
 import profileReducer from './profileReducer';
 import teacherReducer from './teacherReducer';
 import subjectReducer from './subjectReducer';
+import semesterReducer from './semesterReducer';
 
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   profile: profileReducer,
   teachers: teacherReducer,
-  subjects: subjectReducer
+  subjects: subjectReducer,
+  semesters: semesterReducer
 });

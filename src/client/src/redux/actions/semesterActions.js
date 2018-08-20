@@ -1,19 +1,19 @@
 import axios from 'axios';
 import {
-  GET_SUBJECTS,
-  ADD_SUBJECT,
-  REMOVE_SUBJECT,
-  UPDATE_SUBJECT,
-  RESET_SUBJECT_REDUCER,
+  GET_ALL_SEMESTER,
+  ADD_SEMESTER,
+  REMOVE_SEMESTER,
+  UPDATE_SEMESTER,
+  RESET_SEMESTER_REDUCER,
   GET_ERRORS
 } from './types';
 
-export const getSubjects = () => dispatch => {
+export const getAllSemester = () => dispatch => {
   axios
-    .get('/api/subjects')
+    .get('/api/semester/')
     .then(res =>
       dispatch({
-        type: GET_SUBJECTS,
+        type: GET_ALL_SEMESTER,
         payload: res.data
       })
     )
@@ -25,12 +25,12 @@ export const getSubjects = () => dispatch => {
     );
 };
 
-export const addSubject = data => dispatch => {
+export const addSemester = data => dispatch => {
   axios
-    .post('/api/subjects/add', data)
+    .post('/api/semester/add', data)
     .then(res =>
       dispatch({
-        type: ADD_SUBJECT,
+        type: ADD_SEMESTER,
         payload: res.data
       })
     )
@@ -42,12 +42,12 @@ export const addSubject = data => dispatch => {
     );
 };
 
-export const updateSubject = (id, dataUpdate) => dispatch => {
+export const updateSemester = (id, dataUpdate) => dispatch => {
   axios
-    .post(`/api/subjects/${id}`, dataUpdate)
+    .post(`/api/semester/${id}`, dataUpdate)
     .then(res =>
       dispatch({
-        type: UPDATE_SUBJECT,
+        type: UPDATE_SEMESTER,
         payload: res.data
       })
     )
@@ -59,12 +59,12 @@ export const updateSubject = (id, dataUpdate) => dispatch => {
     );
 };
 
-export const removeSubject = id => dispatch => {
+export const removeSemester = id => dispatch => {
   axios
-    .delete(`/api/subjects/${id}`)
+    .delete(`/api/semester/${id}`)
     .then(res =>
       dispatch({
-        type: REMOVE_SUBJECT,
+        type: REMOVE_SEMESTER,
         payload: res.data
       })
     )
@@ -76,8 +76,8 @@ export const removeSubject = id => dispatch => {
     );
 };
 
-export const resetSubjectsData = () => {
+export const resetSemesterData = () => {
   return {
-    type: RESET_SUBJECT_REDUCER
+    type: RESET_SEMESTER_REDUCER
   };
 };

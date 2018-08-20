@@ -44,7 +44,7 @@ export const addTeacher = data => dispatch => {
 
 export const updateTeacher = (id, dataUpdate) => dispatch => {
   axios
-    .post(`api/teachers/${id}`, dataUpdate)
+    .post(`/api/teachers/${id}`, dataUpdate)
     .then(res =>
       dispatch({
         type: UPDATE_TEACHER,
@@ -61,7 +61,7 @@ export const updateTeacher = (id, dataUpdate) => dispatch => {
 
 export const removeTeacher = id => dispatch => {
   axios
-    .delete(`api/teachers/${id}`)
+    .delete(`/api/teachers/${id}`)
     .then(res =>
       dispatch({
         type: REMOVE_TEACHER,

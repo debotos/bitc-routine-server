@@ -6,6 +6,7 @@ import {
   GET_PROFILES,
   GET_TEACHERS,
   GET_SUBJECTS,
+  GET_ALL_SEMESTER,
   RESET_PROFILE_REDUCER,
   STOP_LOADING
 } from './types';
@@ -13,6 +14,7 @@ import {
 import { setProfileLoading, clearErrors } from './profileActions';
 import { resetTeachersData } from './teacherActions';
 import { resetSubjectsData } from './subjectActions';
+import { resetSemesterData } from './semesterActions';
 
 // App initialize with data
 export const appInit = () => dispatch => {
@@ -21,6 +23,7 @@ export const appInit = () => dispatch => {
   dispatch({ type: RESET_PROFILE_REDUCER });
   dispatch(resetTeachersData());
   dispatch(resetSubjectsData());
+  dispatch(resetSemesterData());
 
   // Start the loader (don't start it before cleaning)
   dispatch(setProfileLoading());
@@ -28,7 +31,13 @@ export const appInit = () => dispatch => {
     axios
       .get('/init')
       .then(res => {
-        const { myProfile, allProfiles, subjects, teachers } = res.data;
+        const {
+          myProfile,
+          allProfiles,
+          subjects,
+          teachers,
+          semesters
+        } = res.data;
         // console.log(res.data);
         // fill the app with new data
         dispatch({
@@ -46,6 +55,10 @@ export const appInit = () => dispatch => {
         dispatch({
           type: GET_SUBJECTS,
           payload: subjects
+        });
+        dispatch({
+          type: GET_ALL_SEMESTER,
+          payload: semesters
         });
 
         dispatch({ type: STOP_LOADING });

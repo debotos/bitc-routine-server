@@ -18,7 +18,7 @@ router.post('/add', auth, (req, res) => {
   Semester.findOne({ name: req.body.name }).then(nameExist => {
     // console.log('semester name already or not ', nameExist);
     if (nameExist) {
-      return res.status(400).send({ name: `Name already used !` });
+      return res.status(400).send({ name: `Sorry! This Name already used !` });
     } else {
       semester = new Semester(_.pick(req.body, ['name']));
       semester.save(function(err, newSemester) {

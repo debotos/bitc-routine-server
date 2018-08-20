@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const { User, validate } = require('../models/user');
 const Teacher = require('../models/teacher');
+const Semester = require('../models/semester');
 const Subject = require('../models/subject');
 const router = require('express').Router();
 const async = require('async');
@@ -68,6 +69,20 @@ router.get('/', auth, (req, res) => {
           })
           .catch(err =>
             callback(null, { noTeachers: 'There are no teachers' })
+          );
+      },
+      semesters: function(callback) {
+        const errors = {};
+        Semester.find()
+          .then(semesters => {
+            if (!semesters) {
+              errors.noSemesters = 'There are no semesters';
+              callback(null, errors);
+            }
+            callback(null, semesters);
+          })
+          .catch(err =>
+            callback(null, { noSemesters: 'There are no semesters' })
           );
       }
     },
