@@ -96,9 +96,10 @@ router.post('/:id', auth, (req, res) => {
           { new: true }
         ).then(teacher => res.json(teacher));
       } else {
-        return res
-          .status(400)
-          .send({ code: `Code already used with "${codeExist.name}"` });
+        return res.status(400).send({
+          id: req.params.id,
+          code: `Code already used with "${codeExist.name}"`
+        });
       }
     } else {
       // if the code yet not register

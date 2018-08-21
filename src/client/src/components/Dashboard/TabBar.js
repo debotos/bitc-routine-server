@@ -41,8 +41,8 @@ class TabBar extends Component {
               <CustomTab to="/documents" label="Teachers" clear={clearErrors} />
             </TabList>
           </Tabs>
-          <Route path="/dashboard" component={Semester} />
-          <Route path="/semester" component={Routine} />
+          <Route path="/dashboard" component={Routine} />
+          <Route path="/semester" component={Semester} />
           <Route path="/subjects" component={Subjects} />
           <Route path="/documents" component={Teachers} />
         </div>

@@ -71,12 +71,13 @@ export const removeSemester = id => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      console.log('Semester Remove Error: ', err);
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+        payload: { error: 'Failed to delete semester' }
+      });
+    });
 };
 
 /* COURSE */

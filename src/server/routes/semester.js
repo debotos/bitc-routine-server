@@ -98,9 +98,11 @@ router.get('/', (req, res) => {
 // @desc    Remove a semester
 // @access  Private
 router.delete('/:id', auth, (req, res) => {
-  Semester.findOneAndRemove({ _id: req.params.id }).then(removedSemester => {
-    return res.json({ success: true, removedSemester });
-  });
+  Semester.findOneAndRemove({ _id: req.params.id })
+    .then(removedSemester => {
+      return res.json({ success: true, removedSemester });
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 // @route   DELETE api/semester/:id/courses/delete/:course_id

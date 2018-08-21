@@ -26,6 +26,7 @@ import {
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
 import _ from 'lodash';
+import { history } from '../../App';
 
 import './semester.css';
 import {
@@ -223,10 +224,11 @@ class SemesterListItem extends Component {
                     onClick={() => {
                       this.setState({ deleteBtnLoading: true });
                       setTimeout(() => {
-                        this.props.clearErrors();
                         this.props.removeSemester(semester._id);
+                        this.props.clearErrors();
                         this.setState({ deleteBtnLoading: false });
                         this.setState({ showDeleteModel: false });
+                        history.push('/');
                       }, 2000);
                     }}
                   >

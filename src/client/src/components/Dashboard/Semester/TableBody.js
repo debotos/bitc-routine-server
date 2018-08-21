@@ -36,7 +36,12 @@ class TableBody extends Component {
         </tr>
         {semester.courses && semester.courses.length > 0 ? (
           semester.courses.map((singleItem, index) => (
-            <TableRow key={index} SemesterID={semester._id} data={singleItem} />
+            <TableRow
+              key={index}
+              semsesterCourses={semester.courses}
+              SemesterID={semester._id}
+              data={singleItem}
+            />
           ))
         ) : (
           <tr>

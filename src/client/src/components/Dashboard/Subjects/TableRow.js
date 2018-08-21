@@ -12,12 +12,13 @@ import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
 class TableRow extends Component {
   componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
       if (nextProps.errors.id) {
         if (nextProps.errors.id.toString() === this.state.id.toString()) {
-          console.log(nextProps.errors.id.toString());
-          console.log(this.state.id.toString());
+          // console.log(nextProps.errors.id.toString());
+          // console.log(this.state.id.toString());
           this.setState({ showWarnings: true });
         }
       } else {
@@ -79,7 +80,7 @@ class TableRow extends Component {
         this.setState({ isEdited: false });
       }
       this.setState({ updateBtnLoading: false });
-    }, 2000);
+    }, 3000);
   };
   constructor(props) {
     super(props);

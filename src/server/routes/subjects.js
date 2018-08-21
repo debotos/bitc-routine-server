@@ -83,7 +83,7 @@ router.post('/:id', auth, (req, res) => {
   if (!isValid) return res.status(400).json({ id: req.params.id, ...errors });
 
   Subject.findOne({ code: req.body.code }).then(codeExist => {
-    console.log('subject code already or not ', codeExist);
+    console.log('subject code already exist ? ', codeExist);
     if (codeExist) {
       // it returns null if no result found
       if (codeExist._id.toString() === req.params.id.toString()) {
@@ -97,7 +97,10 @@ router.post('/:id', auth, (req, res) => {
       } else {
         return res
           .status(400)
-          .send({ code: `Code already used with "${codeExist.title}"` });
+          .send({
+            id: req.params.id,
+            code: `Code already used with "${codeExist.title}"`
+          });
       }
     } else {
       const subjectFields = _.pick(req.body, ['title', 'code']);

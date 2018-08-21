@@ -11,6 +11,7 @@ import {
   ModalCardHeader,
   ModalCardTitle,
   Delete,
+  Title,
   ModalCardBody,
   ModalCardFooter
 } from 'bloomer';
@@ -37,7 +38,6 @@ class TableRow extends Component {
       // console.log(propsUpdate);
       this.setState({ id: propsUpdate._id, ...propsUpdate });
       this.setState({
-        updateBtnLoading: false,
         deleteBtnLoading: false
       });
     }
@@ -51,28 +51,111 @@ class TableRow extends Component {
       this.setState({ deleteBtnLoading: false });
     }, 1500);
   };
-  handleUpdate = () => {
+  handleUpdate = e => {
+    e.preventDefault();
+    this.setState({ sameInput: false });
     this.setState({ updateBtnLoading: true });
     this.setState({ errors: {} });
     this.props.clearErrors();
-    let update = _.pick(this.state, ['title', 'code']);
-    this.props.updateCourse(this.state.id, update);
+    let course = _.pick(this.state, ['updateTeacher', 'updateSubject']);
+
+    let finalCourse = {};
+    finalCourse.teacher = {
+      /* IMPORTANT NOTE */
+      // order of the objects matter if your are user JSON.stringify()
+      // if you put here first, name then code at last guest, it's not gonna work
+      guest: course.updateTeacher.value.split('|@|')[2].toString() === 'true',
+      name: course.updateTeacher.value.split('|@|')[0],
+      code: course.updateTeacher.value.split('|@|')[1]
+    };
+    finalCourse.subject = {
+      title: course.updateSubject.value.split('|@|')[0],
+      code: course.updateSubject.value.split('|@|')[1]
+    };
+    // console.log(finalCourse.teacher);
+    // console.log(this.state.teacher);
+    if (
+      JSON.stringify(finalCourse.teacher) ===
+        JSON.stringify(this.state.teacher) &&
+      JSON.stringify(finalCourse.subject) === JSON.stringify(this.state.subject)
+    ) {
+      // show same input
+      this.setState({ sameInput: true });
+    } else {
+      // console.log('Adding course -> ', finalCourse);
+      let currentCourses = this.props.semsesterCourses;
+      let alreadyExist = false;
+
+      currentCourses.forEach(course => {
+        // N.B two course var [one outside the loop]
+        // console.log(
+        //   'First => ',
+        //   JSON.stringify(course.subject),
+        //   JSON.stringify(finalCourse.subject)
+        // );
+        // console.log(
+        //   JSON.stringify(course.subject) === JSON.stringify(finalCourse.subject)
+        // );
+        // console.log(
+        //   'Second => ',
+        //   JSON.stringify(course.teacher),
+        //   JSON.stringify(finalCourse.teacher)
+        // );
+        // console.log(
+        //   JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
+        // );
+
+        if (
+          JSON.stringify(course.subject) ===
+            JSON.stringify(finalCourse.subject) &&
+          JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
+        ) {
+          alreadyExist = true;
+        }
+      });
+
+      if (!alreadyExist) {
+        this.props.updateCourse(
+          this.props.SemesterID,
+          this.state.id,
+          finalCourse
+        );
+      } else {
+        this.setState({ errorMsg: true });
+      }
+    }
+
     setTimeout(() => {
       if (
         _.size(
           // checking errors obj size
-          _.pick(this.state.errors, [
+          _.pick(this.state.errors.subject, [
             // pick only the actual error not successMsg field that i tricked
             'title',
             'code'
           ])
-        ) === 0 // if error obj === 0 then clean else not
+        ) === 0 &&
+        _.size(
+          // checking errors obj size
+          _.pick(this.state.errors.teacher, [
+            // pick only the actual error not successMsg field that i tricked
+            'name',
+            'code'
+          ])
+        ) === 0 &&
+        !this.state.errorMsg &&
+        !this.state.sameInput // if error obj === 0 then clean else not
       ) {
+        this.setState({ updateTeacher: '' });
+        this.setState({ updateSubject: '' });
         this.setState({ errors: {} });
         this.props.clearErrors();
+        this.setState({ modal: false });
       }
       this.setState({ updateBtnLoading: false });
-    }, 2000);
+      this.setState({ errorMsg: false });
+      this.setState({ sameInput: false });
+    }, 3000);
   };
   handleTeacherChange = updateTeacher => {
     this.setState({ updateTeacher });
@@ -99,7 +182,8 @@ class TableRow extends Component {
       deleteBtnLoading: false,
       showWarnings: false,
       modal: false,
-      errorMsg: false
+      errorMsg: false,
+      sameInput: false
     };
 
     // this.onChange = this.onChange.bind(this);
@@ -125,7 +209,8 @@ class TableRow extends Component {
     if (teachers) {
       teachersArray = teachers.map(singleItem => ({
         value: `${singleItem.name}|@|${singleItem.code}|@|${singleItem.guest}`,
-        label: `${singleItem.name} (${singleItem.code})`
+        label: `${singleItem.name} (${singleItem.code}) ${singleItem.guest &&
+          '🌟'}`
       }));
     }
     return (
@@ -148,13 +233,16 @@ class TableRow extends Component {
             ) : (
               <Button
                 style={{ margin: '0 3px' }}
-                isColor="warning"
+                isColor="success"
                 onClick={e => {
                   this.props.clearErrors();
                   this.setState({ errors: {} });
                   this.setState({ modal: true });
                   this.setState({ updateBtnLoading: false });
                   this.setState({ errorMsg: false });
+                  this.setState({ sameInput: false });
+                  this.setState({ updateTeacher: '' });
+                  this.setState({ updateSubject: '' });
                 }}
                 isOutlined
               >
@@ -171,13 +259,13 @@ class TableRow extends Component {
           </div>
         </td>
         {/* Update Form Model */}
-
+        {/* Although this is not the right place (inside tr) to show a model */}
         <Modal isActive={this.state.modal}>
           <ModalBackground />
           <ModalCard>
             <ModalCardHeader>
               {!this.state.updateBtnLoading ? (
-                <ModalCardTitle>Update to :</ModalCardTitle>
+                <ModalCardTitle>Update Course</ModalCardTitle>
               ) : (
                 <ModalCardTitle>Please Wait ! Working...</ModalCardTitle>
               )}
@@ -188,27 +276,37 @@ class TableRow extends Component {
                   this.setState({ modal: false });
                   this.setState({ updateBtnLoading: false });
                   this.setState({ errorMsg: false });
+                  this.setState({ updateTeacher: '' });
+                  this.setState({ updateSubject: '' });
+                  this.setState({ sameInput: false });
                 }}
               />
             </ModalCardHeader>
             <ModalCardBody className="custom-model-card">
               {/* Content  */}
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {this.state.errorMsg && (
-                  <Help
-                    style={{ textAlign: 'center', fontWeight: 500 }}
-                    isColor="danger"
-                  >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Title
+                  style={{ textAlign: 'center', color: '#1ECD97' }}
+                  isSize={5}
+                >
+                  Subject: {course.subject.title}({course.subject.code}),{' '}
+                  Teacher: {course.teacher.name}({course.teacher.code}){' '}
+                  {course.teacher.guest && (
                     <span
+                      style={{ color: '#ffd12d' }}
                       aria-label="subject"
                       role="img"
-                      style={{ fontWeight: 700, color: '#ff3860' }}
                     >
-                      ✋
-                    </span>{' '}
-                    Already Exist !
-                  </Help>
-                )}
+                      🌟
+                    </span>
+                  )}
+                </Title>
+
                 <div
                   style={{
                     display: 'flex',
@@ -238,6 +336,36 @@ class TableRow extends Component {
                     </Control>
                   </Field>
                 </div>
+                {this.state.errorMsg && (
+                  <Help
+                    style={{ textAlign: 'center', fontWeight: 500 }}
+                    isColor="danger"
+                  >
+                    <span
+                      aria-label="subject"
+                      role="img"
+                      style={{ fontWeight: 700, color: '#ff3860' }}
+                    >
+                      ✋
+                    </span>{' '}
+                    Already Exist !
+                  </Help>
+                )}
+                {this.state.sameInput && (
+                  <Help
+                    style={{ textAlign: 'center', fontWeight: 500 }}
+                    isColor="danger"
+                  >
+                    <span
+                      aria-label="subject"
+                      role="img"
+                      style={{ fontWeight: 700, color: '#ff3860' }}
+                    >
+                      ✋
+                    </span>{' '}
+                    Wait ! Everything is same ! You changed Nothing !
+                  </Help>
+                )}
               </div>
             </ModalCardBody>
             <ModalCardFooter>
@@ -249,7 +377,9 @@ class TableRow extends Component {
                 <Button
                   isColor="success"
                   onClick={this.handleUpdate}
-                  disabled={!this.state.teacher || !this.state.subject}
+                  disabled={
+                    !this.state.updateTeacher || !this.state.updateSubject
+                  }
                 >
                   Update
                 </Button>

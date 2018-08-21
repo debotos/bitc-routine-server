@@ -16,8 +16,8 @@ class TableRow extends Component {
       this.setState({ errors: nextProps.errors });
       if (nextProps.errors.id) {
         if (nextProps.errors.id.toString() === this.state.id.toString()) {
-          console.log(nextProps.errors.id.toString());
-          console.log(this.state.id.toString());
+          // console.log(nextProps.errors.id.toString());
+          // console.log(this.state.id.toString());
           this.setState({ showWarnings: true });
         }
       } else {
