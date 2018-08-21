@@ -11,5 +11,5 @@ export const FilterSemester = (ItemsArray, { text }) => {
 
     return textMatch;
     //eslint-disable-next-line
-  });
+  }).sort((a, b) => (a.name < b.name ? -1 : 1));
 };

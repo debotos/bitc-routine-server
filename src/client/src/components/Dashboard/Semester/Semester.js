@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
-import { Container, Notification, Columns, Column } from 'bloomer';
-import { Panel, PanelHeading, PanelBlock, Control, Input, Icon } from 'bloomer';
+import { Container, Columns, Column, Notification } from 'bloomer';
+import {
+  Panel,
+  PanelHeading,
+  PanelBlock,
+  Control,
+  Input,
+  Icon,
+  Title
+} from 'bloomer';
+
 import { connect } from 'react-redux';
 import { setTextFilter } from '../../../redux/actions/filters';
 
@@ -8,12 +17,22 @@ import './semester.css';
 import AddSemester from './AddSemester';
 import SemesterListItem from './SemesterListItem';
 import { FilterSemester } from '../../../utils/selectors';
+import Courses from './Courses';
 
 class Semester extends Component {
   onTextChange = e => {
     this.props.setTextFilter(e.target.value.toUpperCase());
   };
+  onSemesterSelected = (semesterID, semesterData) => {
+    this.setState({ selectedSemesterID: semesterID });
+    this.setState({ selectedSemesterData: semesterData });
+  };
+  state = {
+    selectedSemesterID: '',
+    selectedSemesterData: ''
+  };
   render() {
+    // console.log(this.state.selectedSemesterID);
     let semesters = this.props.semesters;
     // console.log(semesters);
     return (
@@ -42,7 +61,12 @@ class Semester extends Component {
               <Panel>
                 {semesters ? (
                   semesters.map((semester, index) => (
-                    <SemesterListItem key={index} semester={semester} />
+                    <SemesterListItem
+                      onSemesterSelected={this.onSemesterSelected}
+                      selectedSemesterID={this.state.selectedSemesterID} // to show active panel
+                      key={index}
+                      semester={semester}
+                    />
                   ))
                 ) : (
                   <p>No Semester Available! Add New !</p>
@@ -52,10 +76,24 @@ class Semester extends Component {
             </Panel>
           </Column>
           <Column>
-            <Notification isColor="info">
-              This container is <strong>fluid</strong>: it will have a 20px gap
-              on either side.
-            </Notification>
+            {this.state.selectedSemesterID ? (
+              <Courses data={this.state.selectedSemesterData} />
+            ) : (
+              <Notification isColor="light">
+                <Column hasTextAlign="centered">
+                  <Title style={{ color: '#209cee' }} isSize={4}>
+                    Select a semester from the list{' '}
+                    <span
+                      style={{ color: '#ffdd57' }}
+                      aria-label="subject"
+                      role="img"
+                    >
+                      💡
+                    </span>
+                  </Title>
+                </Column>
+              </Notification>
+            )}
           </Column>
         </Columns>
       </Container>

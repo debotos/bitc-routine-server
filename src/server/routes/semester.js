@@ -39,7 +39,7 @@ router.post('/add', auth, (req, res) => {
 // @route   POST api/semester/:id/courses/add
 // @desc    Add new courses to a semester
 // @access  Private
-// @return  res contains array[{},{},{}] of courses belongs to this :id
+// @return  res contains doc {} of courses belongs to this :id
 router.post('/:id/courses/add', auth, (req, res) => {
   // console.log('Req body -> ', req.body);
   const { errors, isValid } = validateCoursesInput(req.body);
@@ -50,7 +50,7 @@ router.post('/:id/courses/add', auth, (req, res) => {
     .then(semester => {
       // req.body contains an obj of { subject: {title, code}, teacher: {name, code, guest} }
       semester.courses.unshift(req.body);
-      semester.save().then(doc => res.json(doc.courses));
+      semester.save().then(doc => res.json(doc));
     })
     .catch(err => res.status(404).json(err));
 });
@@ -106,7 +106,7 @@ router.delete('/:id', auth, (req, res) => {
 // @route   DELETE api/semester/:id/courses/delete/:course_id
 // @desc    Delete a single courses from a particular semester
 // @access  Private
-// @return  res contains array[{},{},{}] of current courses belongs to this :id
+// @return  res contains doc {} of courses belongs to this :id
 router.delete('/:id/courses/delete/:course_id', auth, (req, res) => {
   Semester.findOne({ _id: req.params.id })
     .then(semester => {
@@ -129,7 +129,7 @@ router.delete('/:id/courses/delete/:course_id', auth, (req, res) => {
       semester.courses.splice(deleteIndex, 1);
 
       // save update & return
-      semester.save().then(doc => res.json(doc.courses));
+      semester.save().then(doc => res.json(doc));
     })
     .catch(err => res.status(404).json(err));
 });
@@ -175,7 +175,7 @@ router.post('/:id', auth, (req, res) => {
 // @route   POST api/semester/:id/courses/edit/:course_id
 // @desc    Edit a single courses of a particular semester
 // @access  Private
-// @return  res contains array[{},{},{}] of updated courses belongs to this :id
+// @return  res contains doc {} of courses belongs to this :id
 router.post('/:id/courses/edit/:course_id', auth, (req, res) => {
   // console.log('Req body -> ', req.body);
   const { errors, isValid } = validateCoursesInput(req.body);
@@ -209,7 +209,7 @@ router.post('/:id/courses/edit/:course_id', auth, (req, res) => {
       currentData.teacher.code = req.body.teacher.code;
       currentData.teacher.guest = req.body.teacher.guest;
       // save update & return
-      semester.save().then(doc => res.json(doc.courses));
+      semester.save().then(doc => res.json(doc));
     })
     .catch(err => res.status(404).json(err));
 });

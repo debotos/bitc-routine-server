@@ -6,5 +6,30 @@
 .semester-name:active {
   font-weight: 600;
   cursor: pointer;
+  color: #FFDD57;
+}
+
+.active-semester-name {
+  font-weight: 700;
+  cursor: pointer;
   color: #209CEE;
 }
+
+.panel-block.is-active {
+  border-left: 4px solid #3273dc;
+}
+
+.selectable-input {
+  min-width: 10rem;
+}
+
+.custom-model-card {
+  height: 80vh;
+  max-height: 80vh;
+}
+
+/* @media (max-width: 768px) {
+  .card-content {
+    padding: 0.5rem;
+  }
+} */

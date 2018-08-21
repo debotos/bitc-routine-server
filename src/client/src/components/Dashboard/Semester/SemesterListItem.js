@@ -136,9 +136,15 @@ class SemesterListItem extends Component {
   }
   render() {
     const { errors } = this.state;
+    let selectedItem = '';
+    if (this.props.selectedSemesterID) {
+      selectedItem = this.props.selectedSemesterID;
+    }
     let semester = this.props.semester;
     return (
-      <PanelBlock>
+      <PanelBlock
+        isActive={selectedItem.toString() === semester._id.toString()}
+      >
         <PanelIcon className="fas fa-book-open" />
         <div
           style={{
@@ -149,7 +155,14 @@ class SemesterListItem extends Component {
           }}
         >
           <div
-            className="semester-name"
+            onClick={() =>
+              this.props.onSemesterSelected(semester._id, semester)
+            }
+            className={
+              selectedItem.toString() === semester._id.toString()
+                ? 'active-semester-name'
+                : 'semester-name'
+            }
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(semester.name)
             }}
