@@ -4,6 +4,7 @@ const Routine = require('../models/routine');
 const router = require('express').Router();
 
 const validateRoutineInput = require('../validation/routine');
+const validateClassesInput = require('../validation/classes');
 /*----------------------------------------------------------------*/
 /*           Direct routine means period in this context         */
 /*----------------------------------------------------------------*/
@@ -36,6 +37,25 @@ router.post('/add', auth, (req, res) => {
       });
     }
   });
+});
+
+// @route   POST api/routine/:id/classes/:day/add
+// @desc    Add new classes to a routine's period
+// @access  Private
+// @return  res contains doc {} of Period belongs to this :id
+router.post('/:id/classes/:day/add', auth, (req, res) => {
+  // console.log('Req body -> ', req.body);
+  const { errors, isValid } = validateClassesInput(req.body);
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
+
+  Routine.findOne({ _id: req.params.id })
+    .then(routine => {
+      // req.body contains an obj of { routine: '', subject: {title, code}, teacher: {name, code, guest} }
+      routine.days[req.params.day].classes.unshift(req.body);
+      routine.save().then(doc => res.json(doc));
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 /* READ */
@@ -81,12 +101,45 @@ router.get('/', (req, res) => {
 
 /* DELETE */
 // @route   DELETE api/routine/:id
-// @desc    Remove a routine
+// @desc    Remove a period from routine
 // @access  Private
 router.delete('/:id', auth, (req, res) => {
   Routine.findOneAndRemove({ _id: req.params.id })
     .then(removedRoutine => {
       return res.json({ success: true, removedRoutine });
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+// @route   DELETE api/routine/:id/classes/:day/delete/:classes_id
+// @desc    Delete a single class from a particular routine's period
+// @access  Private
+// @return  res contains doc {} of period belongs to this :id
+router.delete('/:id/classes/:day/delete/:classes_id', auth, (req, res) => {
+  Routine.findOne({ _id: req.params.id })
+    .then(routine => {
+      // Get Delete Item index
+      const deleteIndex = routine.days[req.params.day].classes
+        .map(item => {
+          // console.log('[id works without _id] Item ID => ', item.id);
+          return item.id;
+        })
+        .indexOf(req.params.classes_id);
+      // console.log('deleteIndex of this ID', deleteIndex);
+      if (deleteIndex === -1) {
+        return res
+          .status(404)
+          .json({ error: "No data found of this class in routine's period" });
+      }
+      // update value
+      // let currentData = routine.days[req.params.day].classes[deleteIndex];
+      // console.log('Course Data is going to delete', currentData);
+
+      // Splice out of array
+      routine.days[req.params.day].classes.splice(deleteIndex, 1);
+
+      // save update & return
+      routine.save().then(doc => res.json(doc));
     })
     .catch(err => res.status(404).json(err));
 });
@@ -127,6 +180,51 @@ router.post('/:id', auth, (req, res) => {
       ).then(routine => res.json(routine));
     }
   });
+});
+
+// @route   POST api/routine/:id/classes/:day/edit/:classes_id
+// @desc    Edit a single class from a particular routine's period
+// @access  Private
+// @return  res contains doc {} of period belongs to this :id
+router.post('/:id/classes/:day/edit/:classes_id', auth, (req, res) => {
+  // console.log('Req body -> ', req.body);
+  const { errors, isValid } = validateClassesInput(req.body);
+  // Because of this validation check all fields is required
+  // If you don't want it just comment out the validation code and
+  // at the update time check if it's available or not in the req.body
+  // like, if (req.body.subject.title) { currentData.subject.title = req.body.subject.title }
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
+
+  Routine.findOne({ _id: req.params.id })
+    .then(routine => {
+      // req.body contains an obj of { routine: '', subject: {title, code}, teacher: {name, code, guest} }
+      // Get Update index
+      const updateIndex = routine.days[req.params.day].classes
+        .map(item => {
+          // console.log('[id works without _id] Item ID => ', item.id);
+          return item.id;
+        })
+        .indexOf(req.params.classes_id);
+      // console.log('updateIndex of this ID', updateIndex);
+      if (updateIndex === -1) {
+        return res
+          .status(404)
+          .json({ error: "No data found of this class in routine's period" });
+      }
+      // update value
+      let currentData = routine.days[req.params.day].classes[updateIndex];
+      // console.log('Data of this ID', currentData);
+      currentData.semester = req.body.semester;
+      currentData.subject.title = req.body.subject.title;
+      currentData.subject.code = req.body.subject.code;
+      currentData.teacher.name = req.body.teacher.name;
+      currentData.teacher.code = req.body.teacher.code;
+      currentData.teacher.guest = req.body.teacher.guest;
+      // save update & return
+      routine.save().then(doc => res.json(doc));
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 module.exports = router;

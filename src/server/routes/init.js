@@ -1,15 +1,11 @@
 const auth = require('../middleware/auth');
-const bcrypt = require('bcryptjs');
-const _ = require('lodash');
-const { User, validate } = require('../models/user');
+const { User } = require('../models/user');
 const Teacher = require('../models/teacher');
 const Semester = require('../models/semester');
 const Subject = require('../models/subject');
+const Routine = require('../models/routine');
 const router = require('express').Router();
 const async = require('async');
-
-const validateLoginInput = require('../validation/login');
-const validateSignUpInput = require('../validation/register');
 
 // @route   GET init/
 // @desc    Return current user
@@ -84,6 +80,18 @@ router.get('/', auth, (req, res) => {
           .catch(err =>
             callback(null, { noSemesters: 'There are no semesters' })
           );
+      },
+      routine: function(callback) {
+        const errors = {};
+        Routine.find()
+          .then(routine => {
+            if (!routine) {
+              errors.noRoutine = 'There are no routine';
+              callback(null, errors);
+            }
+            callback(null, routine);
+          })
+          .catch(err => callback(null, { noRoutine: 'There are no routine' }));
       }
     },
     function(err, results) {
