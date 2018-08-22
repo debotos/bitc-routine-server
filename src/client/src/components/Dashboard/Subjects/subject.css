@@ -1,0 +1,7 @@
+.subject-table-container {
+  overflow-x: scroll;
+}
+
+.subject-table-container::-webkit-scrollbar {
+  display: none;
+}

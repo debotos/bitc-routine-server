@@ -9,6 +9,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "react": "^16.4.2",
+    "react-data-components-bulma": "^1.2.3",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-responsive-select": "^4.3.4",

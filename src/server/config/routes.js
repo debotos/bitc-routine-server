@@ -4,6 +4,7 @@ const users = require('../routes/users');
 const teachers = require('../routes/teachers');
 const subjects = require('../routes/subjects');
 const semester = require('../routes/semester');
+const routine = require('../routes/routine');
 const init = require('../routes/init');
 
 module.exports = function(app) {
@@ -12,6 +13,7 @@ module.exports = function(app) {
   app.use('/api/teachers', teachers);
   app.use('/api/subjects', subjects);
   app.use('/api/semester', semester);
+  app.use('/api/routine', routine);
   app.use('/init', init);
   app.use(error);
 };

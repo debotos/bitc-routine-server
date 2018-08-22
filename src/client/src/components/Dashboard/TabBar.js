@@ -3,16 +3,12 @@ import { Tabs, Tab, TabList } from 'bloomer';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 /* Implement Reference https://github.com/AlgusDark/bloomer/issues/67 */
+import Routine from './Routine/Routine';
 import Semester from './Semester/Semester';
 import Teachers from './Teachers/Teachers';
 import Subjects from './Subjects/Subjects';
 import { clearErrors } from '../../redux/actions/profileActions';
 
-const Routine = () => (
-  <div>
-    <h2>Routine</h2>
-  </div>
-);
 const CustomTab = ({ label, to, activeOnlyWhenExact, clear }) => (
   <Route
     path={to}

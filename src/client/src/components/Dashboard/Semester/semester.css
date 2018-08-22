@@ -33,3 +33,13 @@
     padding: 0.5rem;
   }
 } */
+
+/* For course */
+
+.course-table-container {
+  overflow-x: scroll;
+}
+
+.course-table-container::-webkit-scrollbar {
+  display: none;
+}

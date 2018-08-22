@@ -115,7 +115,7 @@ class TableRow extends Component {
     const { errors } = this.state;
     return (
       <tr>
-        <td>
+        <td style={{ minWidth: '11.2rem' }}>
           <div className="field">
             <div className="control">
               <Input
@@ -133,7 +133,7 @@ class TableRow extends Component {
             )}
           </div>
         </td>
-        <td>
+        <td style={{ minWidth: '11.2rem' }}>
           <div className="field">
             <div className="control">
               <Input

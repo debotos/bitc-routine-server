@@ -12,6 +12,7 @@ import {
 import DOMPurify from 'dompurify';
 
 import TableBody from './TableBody';
+import './semester.css';
 
 export default class Courses extends Component {
   render() {
@@ -40,7 +41,7 @@ export default class Courses extends Component {
         <CardContent>
           <Content>
             <Columns isCentered>
-              <Column>
+              <Column className="course-table-container">
                 <Table isBordered isStriped isNarrow>
                   <thead>
                     <tr>

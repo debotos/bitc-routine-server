@@ -1,0 +1,7 @@
+.teacher-table-container {
+  overflow-x: scroll;
+}
+
+.teacher-table-container::-webkit-scrollbar {
+  display: none;
+}

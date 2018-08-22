@@ -31,7 +31,7 @@ class NavBar extends Component {
   };
   render() {
     return (
-      <Navbar className="has-shadow" style={{ margin: '0' }}>
+      <Navbar className="has-shadow is-fixed-top" style={{ margin: '0' }}>
         <Container>
           <NavbarBrand>
             <NavbarItem
