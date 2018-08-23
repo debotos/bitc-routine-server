@@ -2,13 +2,16 @@
   font-weight: 600;
 }
 
-.routine-table th:not(:first-of-type) {
-  min-width: 200px;
+.routine-table tr td {
+  font-weight: 500;
 }
 
-.routine-table th span {
+.routine-table th:not(:first-of-type) {
+  min-width: 230px;
+}
+
+.routine-table thead th {
   color: #05e177;
-  width: 300px;
 }
 
 /* scrollbar */
