@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const RoutineSchema = new Schema({
+  serial: {
+    // 1
+    type: Number,
+    required: true
+  },
   period: {
     // "9:30 AM - 10:10 AM"
     type: String,

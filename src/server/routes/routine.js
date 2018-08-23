@@ -25,14 +25,24 @@ router.post('/add', auth, (req, res) => {
         .status(400)
         .send({ routinePeriod: `Sorry ! Routine Period already exist !` });
     } else {
-      routine = new Routine(_.pick(req.body, ['period', 'time']));
-      routine.save(function(err, newRoutine) {
-        if (err) {
-          return res
-            .status(404)
-            .json({ routinePeriod: 'Filed to add routine period' });
+      Routine.findOne({ serial: req.body.serial }).then(serialExist => {
+        if (!serialExist) {
+          routine = new Routine(
+            _.pick(req.body, ['period', 'time', 'serial', 'break'])
+          );
+          routine.save(function(err, newRoutine) {
+            if (err) {
+              return res
+                .status(404)
+                .json({ routinePeriod: 'Filed to add routine period' });
+            } else {
+              return res.json(newRoutine);
+            }
+          });
         } else {
-          return res.json(newRoutine);
+          return res
+            .status(400)
+            .send({ routineSerial: `Sorry ! Routine Serial already exist !` });
         }
       });
     }
@@ -158,26 +168,68 @@ router.post('/:id', auth, (req, res) => {
     if (periodExist) {
       // it returns null if no result found
       if (periodExist._id.toString() === req.params.id.toString()) {
-        const routineFields = _.pick(req.body, ['period', 'time']);
+        const routineFields = _.pick(req.body, [
+          'period',
+          'time',
+          'serial',
+          'break'
+        ]);
         // console.log('Routine Update data => ', routineFields);
-        Routine.findOneAndUpdate(
-          { _id: req.params.id },
-          { $set: routineFields },
-          { new: true }
-        ).then(routine => res.json(routine));
+        Routine.findOne({ serial: req.body.serial }).then(serialExist => {
+          if (!serialExist) {
+            Routine.findOneAndUpdate(
+              { _id: req.params.id },
+              { $set: routineFields },
+              { new: true }
+            ).then(routine => res.json(routine));
+          } else {
+            if (serialExist._id.toString() === req.params.id.toString()) {
+              Routine.findOneAndUpdate(
+                { _id: req.params.id },
+                { $set: routineFields },
+                { new: true }
+              ).then(routine => res.json(routine));
+            } else {
+              return res.status(400).send({
+                routineSerial: `Sorry! Routine Serial already exist !`
+              });
+            }
+          }
+        });
       } else {
         return res
           .status(400)
           .send({ routinePeriod: `Sorry! Routine Period already exist !` });
       }
     } else {
-      const routineFields = _.pick(req.body, ['period', 'time']);
+      const routineFields = _.pick(req.body, [
+        'period',
+        'time',
+        'serial',
+        'break'
+      ]);
       // console.log('Routine Update data => ', routineFields);
-      Routine.findOneAndUpdate(
-        { _id: req.params.id },
-        { $set: routineFields },
-        { new: true }
-      ).then(routine => res.json(routine));
+      Routine.findOne({ serial: req.body.serial }).then(serialExist => {
+        if (!serialExist) {
+          Routine.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: routineFields },
+            { new: true }
+          ).then(routine => res.json(routine));
+        } else {
+          if (serialExist._id.toString() === req.params.id.toString()) {
+            Routine.findOneAndUpdate(
+              { _id: req.params.id },
+              { $set: routineFields },
+              { new: true }
+            ).then(routine => res.json(routine));
+          } else {
+            return res.status(400).send({
+              routineSerial: `Sorry! Routine Serial already exist !`
+            });
+          }
+        }
+      });
     }
   });
 });

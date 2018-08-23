@@ -141,8 +141,9 @@ class AddCourse extends Component {
     if (teachers) {
       teachersArray = teachers.map(singleItem => ({
         value: `${singleItem.name}|@|${singleItem.code}|@|${singleItem.guest}`,
-        label: `${singleItem.name} (${singleItem.code}) ${singleItem.guest &&
-          '🌟'}`
+        label: `${singleItem.name} (${singleItem.code}) ${
+          singleItem.guest ? '🌟' : ''
+        }`
       }));
     }
     // console.log(teachersArray);

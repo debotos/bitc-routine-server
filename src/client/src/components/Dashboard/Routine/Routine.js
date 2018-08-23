@@ -86,7 +86,7 @@ class Routine extends Component {
       thu = [];
 
     if (routine) {
-      routine.map(singlePeriod => {
+      routine.forEach(singlePeriod => {
         sat.push(singlePeriod.days.sat);
         sun.push(singlePeriod.days.sun);
         mon.push(singlePeriod.days.mon);
@@ -134,7 +134,7 @@ class Routine extends Component {
             >
               <Table
                 className="table is-bordered is-narrow is-hoverable routine-table"
-                style={{ fontSize: '14px' }}
+                style={{ fontSize: '14px', marginBottom: '10rem' }}
               >
                 <thead>
                   <tr>

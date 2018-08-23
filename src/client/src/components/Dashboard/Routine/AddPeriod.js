@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {
+  Icon,
+  Input,
   Help,
   Field,
   Label,
@@ -73,10 +75,16 @@ class AddPeriod extends Component {
     let routinePeriodFinalName = `${this.state.start.format(
       format
     )} - ${this.state.end.format(format)}`;
+    console.log(this.state.serial, typeof this.state.serial);
 
     this.props.addRoutinePeriod({
       period: routinePeriodFinalName,
-      time: routinePeriod
+      time: routinePeriod,
+      serial: parseInt(this.state.serial, 10),
+      break: {
+        isBreak: this.state.break,
+        msg: this.state.reason
+      }
     });
     console.log(routinePeriodFinalName);
 
@@ -87,6 +95,8 @@ class AddPeriod extends Component {
           _.pick(this.state.errors, [
             // pick only the actual error not successMsg field that i tricked
             'routinePeriod',
+            'routineSerial',
+            'serial',
             'period',
             'start',
             'end'
@@ -106,6 +116,9 @@ class AddPeriod extends Component {
         this.setState({ modal: false });
         this.setState({ errors: {} });
         this.props.clearErrors();
+        this.setState({ reason: '' });
+        this.setState({ serial: '' });
+        this.setState({ break: false });
       }
       this.setState({ addPeriodBtnLoading: false });
     }, 3000);
@@ -122,10 +135,25 @@ class AddPeriod extends Component {
         .minute(50),
       modal: false,
       addPeriodBtnLoading: false,
-      errorMsg: false
+      errorMsg: false,
+      serial: '',
+      break: false,
+      reason: ''
     };
   }
-
+  handleSerial = e => {
+    this.setState({ errors: {} });
+    this.setState({ serial: e.target.value });
+  };
+  handleReasonChange = e => {
+    this.setState({ errors: {} });
+    this.setState({ reason: e.target.value });
+  };
+  onBreakChange = e => {
+    // console.log(e.target.checked);
+    this.setState({ errors: {} });
+    this.setState({ break: e.target.checked });
+  };
   render() {
     // console.log(this.state.start.format(format), this.state.end.format(format));
     let { start, end, errors } = this.state;
@@ -169,6 +197,9 @@ class AddPeriod extends Component {
                   this.setState({ errorMsg: false });
                   this.setState({ start: undefined });
                   this.setState({ end: undefined });
+                  this.setState({ reason: '' });
+                  this.setState({ serial: '' });
+                  this.setState({ break: false });
                 }}
               />
             </ModalCardHeader>
@@ -246,6 +277,80 @@ class AddPeriod extends Component {
                 </div>
                 <ShowError error={errors.period} />
                 <ShowError error={errors.routinePeriod} />
+                <div
+                  style={{
+                    marginTop: '1rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Field style={{ maxWidth: '30rem' }}>
+                    {this.state.serial && (
+                      <Help isColor="success">
+                        "Example: put <strong>1</strong> to place this 'period
+                        column' in the <strong>first position</strong> "
+                      </Help>
+                    )}
+                    <Control hasIcons>
+                      <Input
+                        type="number"
+                        isColor="success"
+                        placeholder="Serial or Position e.g. 1"
+                        value={this.state.serial}
+                        onChange={this.handleSerial}
+                      />
+                      <Icon isSize="small" isAlign="left">
+                        <span
+                          className="fas fa-chart-line"
+                          aria-hidden="true"
+                        />
+                      </Icon>
+                      <Icon isSize="small" isAlign="right">
+                        <span className="fa fa-check" aria-hidden="true" />
+                      </Icon>
+                    </Control>
+                    <ShowError error={errors.serial} />
+                    <ShowError error={errors.routineSerial} />
+                  </Field>
+                  {/* checkbox */}
+                  <div className="custom-check-box">
+                    <input
+                      type="checkbox"
+                      checked={this.state.break}
+                      id="break"
+                      name="break"
+                      onChange={this.onBreakChange}
+                    />
+                    <label htmlFor="break" />
+                  </div>
+                  {this.state.break && (
+                    <Field>
+                      {this.state.reason && (
+                        <Help isColor="success">
+                          Reason / Cause for this break e.g. "LUNCH AND PRAYER
+                          BREAK"
+                        </Help>
+                      )}
+                      <Control hasIcons>
+                        <Input
+                          type="text"
+                          isColor="info"
+                          placeholder="Reason of Break"
+                          value={this.state.reason}
+                          onChange={this.handleReasonChange}
+                        />
+                        <Icon isSize="small" isAlign="left">
+                          <span className="fas fa-comment" aria-hidden="true" />
+                        </Icon>
+                        <Icon isSize="small" isAlign="right">
+                          <span className="fa fa-check" aria-hidden="true" />
+                        </Icon>
+                      </Control>
+                      <Help isColor="danger">{errors.reason}</Help>
+                    </Field>
+                  )}
+                </div>
               </div>
             </ModalCardBody>
             <ModalCardFooter>
@@ -258,6 +363,7 @@ class AddPeriod extends Component {
                   isColor="success"
                   onClick={this.handleAddPeriod}
                   disabled={
+                    !this.state.serial ||
                     !start ||
                     !end ||
                     parseInt(start.valueOf(), 10) >=

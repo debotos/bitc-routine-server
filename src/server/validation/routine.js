@@ -1,11 +1,15 @@
 const Validator = require('validator');
 const isEmpty = require('./is-empty');
 
-module.exports = function validateRoutineInput({ period, time }) {
+module.exports = function validateRoutineInput({ serial, period, time }) {
   // console.log('Validating->', period, time);
   let errors = {};
 
-  if (period && time) {
+  if (serial && period && time) {
+    if (!serial || serial.toString().length < 1 || typeof serial !== 'number') {
+      errors.serial = 'Invalid serial !';
+    }
+
     period = !isEmpty(period) ? period : '';
 
     if (!Validator.isLength(period, { min: 2, max: 255 })) {
@@ -27,7 +31,7 @@ module.exports = function validateRoutineInput({ period, time }) {
     }
   } else {
     errors.error =
-      "Nothing Provided ! e.g. {period:'', time:{start:'', end:''}}";
+      "Something missing ! e.g. {period:'', serial: 1, time:{start:'', end:''}}";
   }
 
   return {

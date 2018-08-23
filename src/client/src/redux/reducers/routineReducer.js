@@ -29,7 +29,9 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        routineArray: newRoutineList
+        routineArray: newRoutineList.sort(
+          (a, b) => (a.serial < b.serial ? -1 : 1)
+        )
       };
     case UPDATE_ROUTINE_PERIOD:
       let resUpdate = action.payload;
@@ -42,7 +44,9 @@ export default function(state = initialState, action) {
       });
       return {
         ...state,
-        routineArray: updatedAllRoutineList
+        routineArray: updatedAllRoutineList.sort(
+          (a, b) => (a.serial < b.serial ? -1 : 1)
+        )
       };
     case GET_ALL_ROUTINE_PERIOD:
       // action.payload is an array
@@ -55,7 +59,9 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        routineArray: routineArray
+        routineArray: routineArray.sort(
+          (a, b) => (a.serial < b.serial ? -1 : 1)
+        )
       };
     case REMOVE_ROUTINE_PERIOD:
       let res = action.payload.removedRoutine;
@@ -66,7 +72,9 @@ export default function(state = initialState, action) {
       // console.log('After routine delete ', allroutineArray);
       return {
         ...state,
-        routineArray: allroutineArray
+        routineArray: allroutineArray.sort(
+          (a, b) => (a.serial < b.serial ? -1 : 1)
+        )
       };
     /* CLASSES INSIDE ROUTINE_PERIOD */
     // It can be done using one case like CLASSES_DATA_CHANGED but for the sake of future leaving it
