@@ -2,18 +2,19 @@ const Validator = require('validator');
 const isEmpty = require('./is-empty');
 
 module.exports = function validateRoutineInput({ period, time }) {
-  console.log('Validating->', period, time);
+  // console.log('Validating->', period, time);
   let errors = {};
 
   if (period && time) {
     period = !isEmpty(period) ? period : '';
 
     if (!Validator.isLength(period, { min: 2, max: 255 })) {
-      errors.period = 'Readable time must be between 2 and 255 characters';
+      errors.period =
+        'Readable time period must be between 2 and 255 characters';
     }
 
     if (Validator.isEmpty(period)) {
-      errors.period = 'Readable time field is required';
+      errors.period = 'Readable time period field is required';
     }
 
     if (Validator.isEmpty(time.start)) {

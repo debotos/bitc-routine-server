@@ -8,6 +8,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
+    "rc-time-picker": "^3.4.0",
     "react": "^16.4.2",
     "react-data-components-bulma": "^1.2.3",
     "react-dom": "^16.4.2",

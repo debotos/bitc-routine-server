@@ -259,7 +259,7 @@ class TableRow extends Component {
           </div>
         </td>
         {/* Update Form Model */}
-        {/* Although this is not the right place (inside tr) to show a model */}
+        {/* Although this is not the right place (inside table row) to put a model */}
         <Modal isActive={this.state.modal}>
           <ModalBackground />
           <ModalCard>
