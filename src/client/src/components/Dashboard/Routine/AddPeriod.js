@@ -210,11 +210,10 @@ class AddPeriod extends Component {
                   style={{
                     display: 'flex',
                     flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end'
+                    justifyContent: 'center'
                   }}
                 >
-                  <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
+                  <Field style={{ margin: '0 5px 0 0' }}>
                     <Label>Start At</Label>
                     <Control>
                       <TimePicker
@@ -229,7 +228,7 @@ class AddPeriod extends Component {
                     </Control>
                     <ShowError error={errors.start} />
                   </Field>
-                  <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
+                  <Field style={{ margin: '0 5px 0 0' }}>
                     <Label>End at</Label>
                     <Control>
                       <TimePicker

@@ -257,136 +257,135 @@ class TableRow extends Component {
               </Button>
             )}
           </div>
-        </td>
-        {/* Update Form Model */}
-        {/* Although this is not the right place (inside table row) to put a model */}
-        <Modal isActive={this.state.modal}>
-          <ModalBackground />
-          <ModalCard>
-            <ModalCardHeader>
-              {!this.state.updateBtnLoading ? (
-                <ModalCardTitle>Update Course</ModalCardTitle>
-              ) : (
-                <ModalCardTitle>Please Wait ! Working...</ModalCardTitle>
-              )}
-              <Delete
-                onClick={() => {
-                  this.props.clearErrors();
-                  this.setState({ errors: {} });
-                  this.setState({ modal: false });
-                  this.setState({ updateBtnLoading: false });
-                  this.setState({ errorMsg: false });
-                  this.setState({ updateTeacher: '' });
-                  this.setState({ updateSubject: '' });
-                  this.setState({ sameInput: false });
-                }}
-              />
-            </ModalCardHeader>
-            <ModalCardBody className="custom-model-card">
-              {/* Content  */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                <Title
-                  style={{ textAlign: 'center', color: '#1ECD97' }}
-                  isSize={5}
-                >
-                  Subject: {course.subject.title}({course.subject.code}),{' '}
-                  Teacher: {course.teacher.name}({course.teacher.code}){' '}
-                  {course.teacher.guest && (
-                    <span
-                      style={{ color: '#ffd12d' }}
-                      aria-label="subject"
-                      role="img"
-                    >
-                      🌟
-                    </span>
-                  )}
-                </Title>
-
+          {/* Update Form Model */}
+          <Modal isActive={this.state.modal}>
+            <ModalBackground />
+            <ModalCard>
+              <ModalCardHeader>
+                {!this.state.updateBtnLoading ? (
+                  <ModalCardTitle>Update Course</ModalCardTitle>
+                ) : (
+                  <ModalCardTitle>Please Wait ! Working...</ModalCardTitle>
+                )}
+                <Delete
+                  onClick={() => {
+                    this.props.clearErrors();
+                    this.setState({ errors: {} });
+                    this.setState({ modal: false });
+                    this.setState({ updateBtnLoading: false });
+                    this.setState({ errorMsg: false });
+                    this.setState({ updateTeacher: '' });
+                    this.setState({ updateSubject: '' });
+                    this.setState({ sameInput: false });
+                  }}
+                />
+              </ModalCardHeader>
+              <ModalCardBody className="custom-model-card">
+                {/* Content  */}
                 <div
                   style={{
                     display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end'
+                    flexDirection: 'column'
                   }}
                 >
-                  <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
-                    <Label>Subject</Label>
-                    <Control>
-                      <Select
-                        value={updateSubject}
-                        onChange={this.handleSubjectChange}
-                        options={subjectsArray}
-                      />
-                    </Control>
-                  </Field>
-                  <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
-                    <Label>Teacher</Label>
-                    <Control>
-                      <Select
-                        value={updateTeacher}
-                        onChange={this.handleTeacherChange}
-                        options={teachersArray}
-                      />
-                    </Control>
-                  </Field>
-                </div>
-                {this.state.errorMsg && (
-                  <Help
-                    style={{ textAlign: 'center', fontWeight: 500 }}
-                    isColor="danger"
+                  <Title
+                    style={{ textAlign: 'center', color: '#1ECD97' }}
+                    isSize={5}
                   >
-                    <span
-                      aria-label="subject"
-                      role="img"
-                      style={{ fontWeight: 700, color: '#ff3860' }}
-                    >
-                      ✋
-                    </span>{' '}
-                    Already Exist !
-                  </Help>
-                )}
-                {this.state.sameInput && (
-                  <Help
-                    style={{ textAlign: 'center', fontWeight: 500 }}
-                    isColor="danger"
+                    Subject: {course.subject.title}({course.subject.code}),{' '}
+                    Teacher: {course.teacher.name}({course.teacher.code}){' '}
+                    {course.teacher.guest && (
+                      <span
+                        style={{ color: '#ffd12d' }}
+                        aria-label="subject"
+                        role="img"
+                      >
+                        🌟
+                      </span>
+                    )}
+                  </Title>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-end'
+                    }}
                   >
-                    <span
-                      aria-label="subject"
-                      role="img"
-                      style={{ fontWeight: 700, color: '#ff3860' }}
+                    <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
+                      <Label>Subject</Label>
+                      <Control>
+                        <Select
+                          value={updateSubject}
+                          onChange={this.handleSubjectChange}
+                          options={subjectsArray}
+                        />
+                      </Control>
+                    </Field>
+                    <Field style={{ flex: 1, margin: '0 5px 0 0' }}>
+                      <Label>Teacher</Label>
+                      <Control>
+                        <Select
+                          value={updateTeacher}
+                          onChange={this.handleTeacherChange}
+                          options={teachersArray}
+                        />
+                      </Control>
+                    </Field>
+                  </div>
+                  {this.state.errorMsg && (
+                    <Help
+                      style={{ textAlign: 'center', fontWeight: 500 }}
+                      isColor="danger"
                     >
-                      ✋
-                    </span>{' '}
-                    Wait ! Everything is same ! You changed Nothing !
-                  </Help>
-                )}
-              </div>
-            </ModalCardBody>
-            <ModalCardFooter>
-              {this.state.updateBtnLoading ? (
-                <div style={{ marginTop: '1.2rem' }}>
-                  <ButtonAltSpinner color="#1ECD97" />
+                      <span
+                        aria-label="subject"
+                        role="img"
+                        style={{ fontWeight: 700, color: '#ff3860' }}
+                      >
+                        ✋
+                      </span>{' '}
+                      Already Exist !
+                    </Help>
+                  )}
+                  {this.state.sameInput && (
+                    <Help
+                      style={{ textAlign: 'center', fontWeight: 500 }}
+                      isColor="danger"
+                    >
+                      <span
+                        aria-label="subject"
+                        role="img"
+                        style={{ fontWeight: 700, color: '#ff3860' }}
+                      >
+                        ✋
+                      </span>{' '}
+                      Wait ! Everything is same ! You changed Nothing !
+                    </Help>
+                  )}
                 </div>
-              ) : (
-                <Button
-                  isColor="success"
-                  onClick={this.handleUpdate}
-                  disabled={
-                    !this.state.updateTeacher || !this.state.updateSubject
-                  }
-                >
-                  Update
-                </Button>
-              )}
-            </ModalCardFooter>
-          </ModalCard>
-        </Modal>
+              </ModalCardBody>
+              <ModalCardFooter>
+                {this.state.updateBtnLoading ? (
+                  <div style={{ marginTop: '1.2rem' }}>
+                    <ButtonAltSpinner color="#1ECD97" />
+                  </div>
+                ) : (
+                  <Button
+                    isColor="success"
+                    onClick={this.handleUpdate}
+                    disabled={
+                      !this.state.updateTeacher || !this.state.updateSubject
+                    }
+                  >
+                    Update
+                  </Button>
+                )}
+              </ModalCardFooter>
+            </ModalCard>
+          </Modal>
+        </td>
       </tr>
     );
   }
