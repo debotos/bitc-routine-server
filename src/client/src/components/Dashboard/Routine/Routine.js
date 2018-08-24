@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Columns, Column, Box, Table } from 'bloomer';
+import { Columns, Column, Box, Table, Title } from 'bloomer';
 
 import { connect } from 'react-redux';
 
@@ -60,12 +60,36 @@ class Routine extends Component {
 
     if (routine) {
       routine.forEach(singlePeriod => {
-        sat.push({ id: singlePeriod._id, ...singlePeriod.days.sat });
-        sun.push({ id: singlePeriod._id, ...singlePeriod.days.sun });
-        mon.push({ id: singlePeriod._id, ...singlePeriod.days.mon });
-        tues.push({ id: singlePeriod._id, ...singlePeriod.days.tues });
-        wed.push({ id: singlePeriod._id, ...singlePeriod.days.wed });
-        thu.push({ id: singlePeriod._id, ...singlePeriod.days.thu });
+        sat.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.sat
+        });
+        sun.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.sun
+        });
+        mon.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.mon
+        });
+        tues.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.tues
+        });
+        wed.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.wed
+        });
+        thu.push({
+          id: singlePeriod._id,
+          break: singlePeriod.break,
+          ...singlePeriod.days.thu
+        });
       });
     }
 
@@ -123,63 +147,112 @@ class Routine extends Component {
                 <tbody>
                   <tr>
                     <td>{days[0]}</td>
-                    {sat.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'sat'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {sat.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'sat'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return (
+                          <td
+                            style={{ textAlign: 'center' }}
+                            rowSpan={'6'}
+                            key={index}
+                          >
+                            <Title className="break-heading" isSize={1}>
+                              Break
+                            </Title>
+                            <Title className="break-message" isSize={4}>
+                              {singleCellData.break.msg}
+                            </Title>
+                          </td>
+                        );
+                      }
+                    })}
                   </tr>
                   <tr>
                     <td>{days[1]}</td>
-                    {sun.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'sun'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {sun.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'sun'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
                   </tr>
                   <tr>
                     <td>{days[2]}</td>
-                    {mon.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'mon'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {mon.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'mon'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
                   </tr>
                   <tr>
                     <td>{days[3]}</td>
-                    {tues.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'tues'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {tues.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'tues'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
                   </tr>
                   <tr>
                     <td>{days[4]}</td>
-                    {wed.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'wed'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {wed.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'wed'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
                   </tr>
                   <tr>
                     <td>{days[5]}</td>
-                    {thu.map((singleCellData, index) => (
-                      <SingleCell
-                        day={'thu'}
-                        data={singleCellData}
-                        key={index}
-                      />
-                    ))}
+                    {thu.map((singleCellData, index) => {
+                      if (!singleCellData.break.isBreak) {
+                        return (
+                          <SingleCell
+                            day={'thu'}
+                            data={singleCellData}
+                            key={index}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
                   </tr>
                 </tbody>
               </Table>
