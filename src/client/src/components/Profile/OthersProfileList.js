@@ -189,6 +189,7 @@ class OthersProfileList extends Component {
                             isLoading={this.state.btn_loading}
                             onClick={this.finalWork}
                             isColor="danger"
+                            disabled={!this.state.password}
                           >
                             Delete
                           </Button>

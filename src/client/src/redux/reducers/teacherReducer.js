@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
-        teachers: newTeachers
+        teachers: newTeachers.sort((a, b) => (a.name < b.name ? -1 : 1))
       };
     case UPDATE_TEACHER:
       let resUpdate = action.payload;
@@ -43,7 +43,7 @@ export default function(state = initialState, action) {
       });
       return {
         ...state,
-        teachers: updatedAllTeachers
+        teachers: updatedAllTeachers.sort((a, b) => (a.name < b.name ? -1 : 1))
       };
     case GET_TEACHERS:
       // action.payload is an array
@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        teachers
+        teachers: teachers.sort((a, b) => (a.name < b.name ? -1 : 1))
       };
     case REMOVE_TEACHER:
       let res = action.payload.removedTeacher;
@@ -67,7 +67,7 @@ export default function(state = initialState, action) {
       // console.log('After teacher delete ', allteachers);
       return {
         ...state,
-        teachers: allteachers
+        teachers: allteachers.sort((a, b) => (a.name < b.name ? -1 : 1))
       };
     default:
       return state;
