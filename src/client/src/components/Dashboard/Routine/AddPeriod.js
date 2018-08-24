@@ -56,13 +56,13 @@ class AddPeriod extends Component {
   }
   onStartChange = start => {
     // console.log(start);
-    console.log(start && start.format(format));
+    // console.log(start && start.format(format));
     this.setState({ start });
   };
 
   onEndChange = end => {
     // console.log(end);
-    console.log(end && end.format(format));
+    // console.log(end && end.format(format));
     this.setState({ end });
   };
 
@@ -75,7 +75,7 @@ class AddPeriod extends Component {
     let routinePeriodFinalName = `${this.state.start.format(
       format
     )} - ${this.state.end.format(format)}`;
-    console.log(this.state.serial, typeof this.state.serial);
+    // console.log(this.state.serial, typeof this.state.serial);
 
     this.props.addRoutinePeriod({
       period: routinePeriodFinalName,
@@ -86,7 +86,7 @@ class AddPeriod extends Component {
         msg: this.state.reason
       }
     });
-    console.log(routinePeriodFinalName);
+    // console.log(routinePeriodFinalName);
 
     setTimeout(() => {
       if (
@@ -177,8 +177,8 @@ class AddPeriod extends Component {
             <p className="plus">+</p>
             <img className="edit" alt="Add period" src={addIcon} />
           </div>
-          {/* model to add a period */}
         </div>
+        {/* model to add a period */}
         <Modal isActive={this.state.modal}>
           <ModalBackground />
           <ModalCard>
@@ -195,8 +195,16 @@ class AddPeriod extends Component {
                   this.setState({ modal: false });
                   this.setState({ addPeriodBtnLoading: false });
                   this.setState({ errorMsg: false });
-                  this.setState({ start: undefined });
-                  this.setState({ end: undefined });
+                  this.setState({
+                    start: moment()
+                      .hour(9)
+                      .minute(0)
+                  });
+                  this.setState({
+                    end: moment()
+                      .hour(9)
+                      .minute(50)
+                  });
                   this.setState({ reason: '' });
                   this.setState({ serial: '' });
                   this.setState({ break: false });
@@ -249,7 +257,7 @@ class AddPeriod extends Component {
                     <Control>
                       <TimePicker
                         showSecond={false}
-                        defaultValue={this.state.start}
+                        value={this.state.start}
                         className="period-start"
                         onChange={this.onStartChange}
                         format={format}
@@ -264,7 +272,7 @@ class AddPeriod extends Component {
                     <Control>
                       <TimePicker
                         showSecond={false}
-                        defaultValue={this.state.end}
+                        value={this.state.end}
                         className="period-end"
                         onChange={this.onEndChange}
                         format={format}
@@ -314,16 +322,27 @@ class AddPeriod extends Component {
                     <ShowError error={errors.routineSerial} />
                   </Field>
                   {/* checkbox */}
-                  <div className="custom-check-box">
-                    <input
-                      type="checkbox"
-                      checked={this.state.break}
-                      id="break"
-                      name="break"
-                      onChange={this.onBreakChange}
-                    />
-                    <label htmlFor="break" />
-                  </div>
+                  <Field>
+                    <Label>Is It Break Time ?</Label>
+                    <Control
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <div className="custom-check-box">
+                        <input
+                          type="checkbox"
+                          checked={this.state.break}
+                          id="break"
+                          name="break"
+                          onChange={this.onBreakChange}
+                        />
+                        <label htmlFor="break" />
+                      </div>
+                    </Control>
+                  </Field>
                   {this.state.break && (
                     <Field>
                       {this.state.reason && (

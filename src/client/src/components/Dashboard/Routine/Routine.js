@@ -36,9 +36,9 @@ class Routine extends Component {
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.routine) {
-      console.log('Before', this.state.columns);
+      // console.log('Before', this.state.columns);
       this.setState({ columns: this.generateColumn(nextProps.routine) }, () => {
-        console.log('After', this.state.columns);
+        // console.log('After', this.state.columns);
       });
       this.generateCellData(nextProps.routine);
     }

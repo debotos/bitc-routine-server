@@ -189,7 +189,7 @@
 }
 
 .custom-check-box:after {
-  content: "OFF";
+  content: "NO";
   color: #000;
   position: absolute;
   right: 10px;
@@ -200,8 +200,8 @@
 }
 
 .custom-check-box:before {
-  content: "ON";
-  color: #c0392b;
+  content: "YES";
+  color: #ff0000;
   position: absolute;
   left: 10px;
   z-index: 0;

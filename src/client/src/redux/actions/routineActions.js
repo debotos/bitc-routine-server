@@ -51,7 +51,7 @@ export const updateRoutinePeriod = (id, dataUpdate) => dispatch => {
     .then(res =>
       dispatch({
         type: UPDATE_ROUTINE_PERIOD,
-        payload: res.data
+        payload: res.data.routine
       })
     )
     .catch(err =>
