@@ -83,12 +83,12 @@ router.post('/:id', auth, (req, res) => {
   if (!isValid) return res.status(400).json({ id: req.params.id, ...errors });
 
   Subject.findOne({ code: req.body.code }).then(codeExist => {
-    console.log('subject code already exist ? ', codeExist);
+    // console.log('subject code already exist ? ', codeExist);
     if (codeExist) {
       // it returns null if no result found
       if (codeExist._id.toString() === req.params.id.toString()) {
         const subjectFields = _.pick(req.body, ['title', 'code']);
-        console.log('Subject Update data => ', subjectFields);
+        // console.log('Subject Update data => ', subjectFields);
         Subject.findOneAndUpdate(
           { _id: req.params.id },
           { $set: subjectFields },

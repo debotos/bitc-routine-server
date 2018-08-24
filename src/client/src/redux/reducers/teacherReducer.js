@@ -60,11 +60,11 @@ export default function(state = initialState, action) {
       };
     case REMOVE_TEACHER:
       let res = action.payload.removedTeacher;
-      console.log('Before teacher delete ', state['teachers']);
+      // console.log('Before teacher delete ', state['teachers']);
       let allteachers = state['teachers'].filter(
         singleItem => singleItem._id.toString() !== res._id.toString()
       );
-      console.log('After teacher delete ', allteachers);
+      // console.log('After teacher delete ', allteachers);
       return {
         ...state,
         teachers: allteachers

@@ -2,7 +2,7 @@ const Validator = require('validator');
 const isEmpty = require('./is-empty');
 
 module.exports = function validateClassesInput(data) {
-  console.log('Validating->', data);
+  // console.log('Validating->', data);
   let { semester, subject, teacher } = data;
 
   let errors = {

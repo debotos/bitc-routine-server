@@ -45,11 +45,11 @@ class TableRow extends Component {
 
   handleDelete = () => {
     this.setState({ deleteBtnLoading: true });
+    this.props.removeCourse(this.props.SemesterID, this.state.id);
     setTimeout(() => {
       this.props.clearErrors();
-      this.props.removeCourse(this.props.SemesterID, this.state.id);
       this.setState({ deleteBtnLoading: false });
-    }, 1500);
+    }, 500);
   };
   handleUpdate = e => {
     e.preventDefault();
@@ -75,9 +75,8 @@ class TableRow extends Component {
     // console.log(finalCourse.teacher);
     // console.log(this.state.teacher);
     if (
-      JSON.stringify(finalCourse.teacher) ===
-        JSON.stringify(this.state.teacher) &&
-      JSON.stringify(finalCourse.subject) === JSON.stringify(this.state.subject)
+      _.isEqual(finalCourse.teacher, this.state.teacher) &&
+      _.isEqual(finalCourse.subject, this.state.subject)
     ) {
       // show same input
       this.setState({ sameInput: true });
@@ -88,27 +87,9 @@ class TableRow extends Component {
 
       currentCourses.forEach(course => {
         // N.B two course var [one outside the loop]
-        // console.log(
-        //   'First => ',
-        //   JSON.stringify(course.subject),
-        //   JSON.stringify(finalCourse.subject)
-        // );
-        // console.log(
-        //   JSON.stringify(course.subject) === JSON.stringify(finalCourse.subject)
-        // );
-        // console.log(
-        //   'Second => ',
-        //   JSON.stringify(course.teacher),
-        //   JSON.stringify(finalCourse.teacher)
-        // );
-        // console.log(
-        //   JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
-        // );
-
         if (
-          JSON.stringify(course.subject) ===
-            JSON.stringify(finalCourse.subject) &&
-          JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
+          _.isEqual(course.subject, finalCourse.subject) &&
+          _.isEqual(course.teacher, finalCourse.teacher)
         ) {
           alreadyExist = true;
         }

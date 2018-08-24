@@ -55,11 +55,11 @@ export default function(state = initialState, action) {
       };
     case REMOVE_SUBJECT:
       let res = action.payload.removedSubject;
-      console.log('Before subject delete ', state['subjects']);
+      // console.log('Before subject delete ', state['subjects']);
       let allsubjects = state['subjects'].filter(
         singleItem => singleItem._id.toString() !== res._id.toString()
       );
-      console.log('After subject delete ', allsubjects);
+      // console.log('After subject delete ', allsubjects);
       return {
         ...state,
         subjects: allsubjects

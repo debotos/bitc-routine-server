@@ -7,7 +7,7 @@ import './teacher.css';
 export default class Teachers extends Component {
   render() {
     return (
-      <Container>
+      <Container isFluid>
         <Box>
           <Columns isCentered>
             <Column isSize="2/3" className="teacher-table-container">

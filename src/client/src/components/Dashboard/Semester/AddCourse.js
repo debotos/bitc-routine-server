@@ -26,7 +26,7 @@ class AddCourse extends Component {
     let finalCourse = {};
     finalCourse.teacher = {
       /* IMPORTANT NOTE */
-      // order of the objects matter if your are user JSON.stringify()
+      // maybe order of the objects matter if your are using JSON.stringify()
       // if you put here first, name then code at last guest, it's not gonna work
       guest: course.teacher.value.split('|@|')[2].toString() === 'true',
       name: course.teacher.value.split('|@|')[0],
@@ -41,27 +41,9 @@ class AddCourse extends Component {
     let alreadyExist = false;
 
     currentCourses.forEach(course => {
-      // console.log(
-      //   'First => ',
-      //   JSON.stringify(course.subject),
-      //   JSON.stringify(finalCourse.subject)
-      // );
-      // console.log(
-      //   JSON.stringify(course.subject) === JSON.stringify(finalCourse.subject)
-      // );
-      // console.log(
-      //   'Second => ',
-      //   JSON.stringify(course.teacher),
-      //   JSON.stringify(finalCourse.teacher)
-      // );
-      // console.log(
-      //   JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
-      // );
-
       if (
-        JSON.stringify(course.subject) ===
-          JSON.stringify(finalCourse.subject) &&
-        JSON.stringify(course.teacher) === JSON.stringify(finalCourse.teacher)
+        _.isEqual(course.subject, finalCourse.subject) &&
+        _.isEqual(course.teacher, finalCourse.teacher)
       ) {
         alreadyExist = true;
       }
@@ -99,7 +81,7 @@ class AddCourse extends Component {
       }
       this.setState({ loading: false });
       this.setState({ showMsg: false });
-    }, 3000);
+    }, 2500);
   };
   constructor(props) {
     super(props);

@@ -51,7 +51,7 @@ class AddSemester extends Component {
     }
 
     this.props.addSemester({ name: semesterFinalName });
-    console.log(semesterFinalName);
+    // console.log(semesterFinalName);
 
     setTimeout(() => {
       if (

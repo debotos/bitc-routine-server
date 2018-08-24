@@ -1,5 +1,6 @@
 .routine-table tr td:nth-child(1) {
   font-weight: 600;
+  color: #00D1B2;
 }
 
 .routine-table tr td {

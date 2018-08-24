@@ -89,7 +89,7 @@ router.post('/:id', auth, (req, res) => {
       if (codeExist._id.toString() === req.params.id.toString()) {
         // if the code is yours
         const teacherFields = _.pick(req.body, ['name', 'code', 'guest']);
-        console.log('Teacher Update data => ', teacherFields);
+        // console.log('Teacher Update data => ', teacherFields);
         Teacher.findOneAndUpdate(
           { _id: req.params.id },
           { $set: teacherFields },
@@ -104,7 +104,7 @@ router.post('/:id', auth, (req, res) => {
     } else {
       // if the code yet not register
       const teacherFields = _.pick(req.body, ['name', 'code', 'guest']);
-      console.log('Teacher Update data => ', teacherFields);
+      // console.log('Teacher Update data => ', teacherFields);
       Teacher.findOneAndUpdate(
         { _id: req.params.id },
         { $set: teacherFields },

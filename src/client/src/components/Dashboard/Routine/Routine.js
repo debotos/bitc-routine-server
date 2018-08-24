@@ -106,7 +106,10 @@ class Routine extends Component {
               className="routine-table-container"
             >
               <Table
-                className="table is-bordered is-narrow is-hoverable routine-table"
+                isBordered
+                isStriped
+                isNarrow
+                className="table is-hoverable routine-table"
                 style={{ fontSize: '14px', marginBottom: '10rem' }}
               >
                 <thead>

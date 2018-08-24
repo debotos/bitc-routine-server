@@ -89,41 +89,45 @@ class SingleCellForm extends Component {
     }, 1000);
   };
   checkExistOrNot = () => {
-    let course = JSON.parse(this.state.selectedClass.value);
-    let semester = this.state.selectedSemester.value;
-    let data = {
-      semester,
-      teacher: course.teacher,
-      subject: course.subject
-    };
-    let exist = false;
-    this.props.routine.forEach(singlePeriod => {
-      if (singlePeriod._id.toString() === this.props.Period_ID.toString()) {
-        let allClass = singlePeriod.days[this.props.day].classes;
-        allClass.forEach(singleClass => {
-          delete singleClass._id;
-          // ----------------- Important Note -------------------
-          // Use JSON.stringify() to compare simple object having no nested node
-          // _.isEqual(obj_1, obj_2) is a good method for complex nested
-          if (_.isEqual(singleClass, data)) {
-            exist = true;
-          }
-        });
-      }
-    });
-
-    if (exist) {
-      this.setState({
-        errorMsg: (
-          <span
-            aria-label="subject"
-            role="img"
-            style={{ fontWeight: 700, color: '#ff3860' }}
-          >
-            Subject Exist Blind ! Look down 👇
-          </span>
-        )
+    if (this.state.selectedClass && this.state.selectedSemester) {
+      let course = JSON.parse(this.state.selectedClass.value);
+      let semester = this.state.selectedSemester.value;
+      let data = {
+        semester,
+        teacher: course.teacher,
+        subject: course.subject
+      };
+      let exist = false;
+      this.props.routine.forEach(singlePeriod => {
+        if (singlePeriod._id.toString() === this.props.Period_ID.toString()) {
+          let allClass = singlePeriod.days[this.props.day].classes;
+          allClass.forEach(singleClass => {
+            delete singleClass._id;
+            // ----------------- Important Note -------------------
+            // Use JSON.stringify() to compare simple object having no nested node
+            // _.isEqual(obj_1, obj_2) is a good method for complex nested
+            if (_.isEqual(singleClass, data)) {
+              exist = true;
+            }
+          });
+        }
       });
+
+      if (exist) {
+        this.setState({
+          errorMsg: (
+            <span
+              aria-label="subject"
+              role="img"
+              style={{ fontWeight: 700, color: '#ff3860' }}
+            >
+              Subject Exist Blind ! Look down 👇
+            </span>
+          )
+        });
+      } else {
+        this.setState({ errorMsg: '' });
+      }
     } else {
       this.setState({ errorMsg: '' });
     }
@@ -172,7 +176,11 @@ class SingleCellForm extends Component {
             />
           </span>
         )}
-        {this.state.errorMsg && <ShowError error={this.state.errorMsg} />}
+        {this.state.errorMsg &&
+          this.state.selectedClass &&
+          this.state.selectedSemester && (
+            <ShowError error={this.state.errorMsg} />
+          )}
         {!this.state.errorMsg &&
           this.state.selectedClass &&
           this.state.selectedSemester && (
