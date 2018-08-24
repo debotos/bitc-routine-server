@@ -11,10 +11,16 @@ class SingleCell extends Component {
     errors: {}
   };
   render() {
+    // console.log('SingleCell.js got ', this.props.data);
     return (
       <td>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {this.props.data.classes && <SingleCellForm />}
+          {this.props.data.classes && (
+            <SingleCellForm
+              day={this.props.day}
+              Period_ID={this.props.data.id}
+            />
+          )}
           {this.props.data.classes &&
             this.props.data.classes.length > 0 &&
             this.props.data.classes.map((singleClassItem, index) => (

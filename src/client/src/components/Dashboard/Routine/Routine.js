@@ -60,12 +60,12 @@ class Routine extends Component {
 
     if (routine) {
       routine.forEach(singlePeriod => {
-        sat.push(singlePeriod.days.sat);
-        sun.push(singlePeriod.days.sun);
-        mon.push(singlePeriod.days.mon);
-        tues.push(singlePeriod.days.tues);
-        wed.push(singlePeriod.days.wed);
-        thu.push(singlePeriod.days.thu);
+        sat.push({ id: singlePeriod._id, ...singlePeriod.days.sat });
+        sun.push({ id: singlePeriod._id, ...singlePeriod.days.sun });
+        mon.push({ id: singlePeriod._id, ...singlePeriod.days.mon });
+        tues.push({ id: singlePeriod._id, ...singlePeriod.days.tues });
+        wed.push({ id: singlePeriod._id, ...singlePeriod.days.wed });
+        thu.push({ id: singlePeriod._id, ...singlePeriod.days.thu });
       });
     }
 
@@ -121,37 +121,61 @@ class Routine extends Component {
                   <tr>
                     <td>{days[0]}</td>
                     {sat.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'sat'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                   <tr>
                     <td>{days[1]}</td>
                     {sun.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'sun'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                   <tr>
                     <td>{days[2]}</td>
                     {mon.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'mon'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                   <tr>
                     <td>{days[3]}</td>
                     {tues.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'tues'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                   <tr>
                     <td>{days[4]}</td>
                     {wed.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'wed'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                   <tr>
                     <td>{days[5]}</td>
                     {thu.map((singleCellData, index) => (
-                      <SingleCell data={singleCellData} key={index} />
+                      <SingleCell
+                        day={'thu'}
+                        data={singleCellData}
+                        key={index}
+                      />
                     ))}
                   </tr>
                 </tbody>

@@ -32,7 +32,7 @@ import ButtonAltSpinner from '../ButtonAltSpinner/ButtonAltSpinner';
 
 const format = 'h:mm a';
 
-const ShowError = ({ error }) =>
+export const ShowError = ({ error }) =>
   error ? (
     <Help style={{ textAlign: 'center', fontWeight: 500 }} isColor="danger">
       <span
