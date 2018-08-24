@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Columns, Column, Box, Table, Button } from 'bloomer';
+import { Columns, Column, Box, Table } from 'bloomer';
+
 import { connect } from 'react-redux';
 
 import { clearErrors } from '../../../redux/actions/profileActions';
@@ -7,6 +8,7 @@ import { clearErrors } from '../../../redux/actions/profileActions';
 import './routine.css';
 import AddPeriod from './AddPeriod';
 import SingleCell from './SingleCell';
+import HeaderSingleCell from './HeaderSingleCell';
 
 class Routine extends Component {
   generateColumn = (argRoutine = null) => {
@@ -24,36 +26,7 @@ class Routine extends Component {
 
     let routine = DataToWork
       ? DataToWork.map((singleItem, index) => {
-          return (
-            <p
-              key={index}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between'
-              }}
-            >
-              <span>{singleItem.period}</span>
-              <span
-                style={{
-                  display: 'flex'
-                }}
-              >
-                <Button
-                  isColor="info"
-                  isOutlined
-                  isSize="small"
-                  style={{ marginRight: '5px' }}
-                >
-                  Edit
-                </Button>
-                <Button isColor="danger" isOutlined isSize="small">
-                  <span className="icon is-small">
-                    <i className="fas fa-trash" />
-                  </span>
-                </Button>
-              </span>
-            </p>
-          );
+          return <HeaderSingleCell key={index} data={singleItem} />;
         })
       : [];
     if (DataToWork) {
