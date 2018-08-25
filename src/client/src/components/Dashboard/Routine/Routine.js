@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Columns, Column, Box, Table, Title } from 'bloomer';
-
 import { connect } from 'react-redux';
 
 import { clearErrors } from '../../../redux/actions/profileActions';
-
+import GENERATE_PDF from './GENERATE_PDF';
 import './routine.css';
 import AddPeriod from './AddPeriod';
 import SingleCell from './SingleCell';
@@ -259,9 +258,20 @@ class Routine extends Component {
             </Column>
           </Columns>
         </Box>
-
-        {/* floating button */}
+        {/* add period floating button */}
         <AddPeriod />
+
+        <a
+          href="#"
+          className="pdf-btn-float"
+          onClick={e => {
+            e.preventDefault();
+            console.log('*********** Generating pdf *************');
+            GENERATE_PDF(this.props.routine);
+          }}
+        >
+          <i className="fas fa-file-pdf my-float" />
+        </a>
       </div>
     );
   }

@@ -61,6 +61,34 @@
 
 /* Floating Button Style */
 
+/* save pdf button */
+
+.pdf-btn-float {
+  position: fixed;
+  outline: none;
+  width: 45px;
+  height: 45px;
+  bottom: 20px;
+  left: 20px;
+  background-color: #0C9;
+  color: #FFF;
+  border: 2px solid #eee;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.pdf-btn-float:hover {
+  color: #db4437;
+  background-color: #eee;
+}
+
+.my-float {
+  margin-top: 13px;
+}
+
+/* Add period button */
+
 #floating-button {
   outline: none;
   border: 2px solid #eee;

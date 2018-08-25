@@ -39,11 +39,11 @@ class TabBar extends Component {
               <CustomTab to="/exams" label="Exams" clear={clearErrors} />
             </TabList>
           </Tabs>
-          <Route path="/dashboard" component={Exams} />
+          <Route path="/dashboard" component={Routine} />
           <Route path="/semester" component={Semester} />
           <Route path="/subjects" component={Subjects} />
           <Route path="/teachers" component={Teachers} />
-          <Route path="/exams" component={Routine} />
+          <Route path="/exams" component={Exams} />
         </div>
       </Router>
     );

@@ -41,7 +41,10 @@ export default class Courses extends Component {
         <CardContent>
           <Content>
             <Columns isCentered>
-              <Column className="course-table-container">
+              <Column
+                style={{ minHeight: '70vh' }}
+                className="course-table-container"
+              >
                 <Table isBordered isStriped isNarrow>
                   <thead>
                     <tr>
