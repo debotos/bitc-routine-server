@@ -7,6 +7,7 @@ import subjectReducer from './subjectReducer';
 import semesterReducer from './semesterReducer';
 import routineReducer from './routineReducer';
 import filtersReducer from './filters';
+import examReducer from './examReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   subjects: subjectReducer,
   semesters: semesterReducer,
   routine: routineReducer,
-  filters: filtersReducer
+  filters: filtersReducer,
+  exams: examReducer
 });

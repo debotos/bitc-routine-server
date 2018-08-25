@@ -7,6 +7,7 @@ import Routine from './Routine/Routine';
 import Semester from './Semester/Semester';
 import Teachers from './Teachers/Teachers';
 import Subjects from './Subjects/Subjects';
+import Exams from './Exams/Exams';
 import { clearErrors } from '../../redux/actions/profileActions';
 
 const CustomTab = ({ label, to, activeOnlyWhenExact, clear }) => (
@@ -34,13 +35,15 @@ class TabBar extends Component {
               <CustomTab to="/dashboard" label="Routine" clear={clearErrors} />
               <CustomTab to="/semester" label="Semester" clear={clearErrors} />
               <CustomTab to="/subjects" label="Subjects" clear={clearErrors} />
-              <CustomTab to="/documents" label="Teachers" clear={clearErrors} />
+              <CustomTab to="/teachers" label="Teachers" clear={clearErrors} />
+              <CustomTab to="/exams" label="Exams" clear={clearErrors} />
             </TabList>
           </Tabs>
           <Route path="/dashboard" component={Routine} />
           <Route path="/semester" component={Semester} />
           <Route path="/subjects" component={Subjects} />
-          <Route path="/documents" component={Teachers} />
+          <Route path="/teachers" component={Teachers} />
+          <Route path="/exams" component={Exams} />
         </div>
       </Router>
     );

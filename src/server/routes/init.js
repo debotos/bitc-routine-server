@@ -4,6 +4,7 @@ const Teacher = require('../models/teacher');
 const Semester = require('../models/semester');
 const Subject = require('../models/subject');
 const Routine = require('../models/routine');
+const Exam = require('../models/exam');
 const router = require('express').Router();
 const async = require('async');
 
@@ -92,6 +93,18 @@ router.get('/', auth, (req, res) => {
             callback(null, routine);
           })
           .catch(err => callback(null, { noRoutine: 'There are no routine' }));
+      },
+      exams: function(callback) {
+        const errors = {};
+        Exam.find()
+          .then(exams => {
+            if (!exams) {
+              errors.noExams = 'There are no exams';
+              callback(null, errors);
+            }
+            callback(null, exams);
+          })
+          .catch(err => callback(null, { noExams: 'There are no exams' }));
       }
     },
     function(err, results) {

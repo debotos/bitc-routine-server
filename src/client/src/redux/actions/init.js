@@ -9,7 +9,8 @@ import {
   GET_ALL_SEMESTER,
   RESET_PROFILE_REDUCER,
   STOP_LOADING,
-  GET_ALL_ROUTINE_PERIOD
+  GET_ALL_ROUTINE_PERIOD,
+  GET_EXAMS
 } from './types';
 
 import { setProfileLoading, clearErrors } from './profileActions';
@@ -17,6 +18,7 @@ import { resetTeachersData } from './teacherActions';
 import { resetSubjectsData } from './subjectActions';
 import { resetSemesterData } from './semesterActions';
 import { resetRoutinePeriodData } from './routineActions';
+import { resetExamsData } from './examActions';
 
 // App initialize with data
 export const appInit = () => dispatch => {
@@ -27,6 +29,7 @@ export const appInit = () => dispatch => {
   dispatch(resetSubjectsData());
   dispatch(resetSemesterData());
   dispatch(resetRoutinePeriodData());
+  dispatch(resetExamsData());
 
   // Start the loader (don't start it before cleaning)
   dispatch(setProfileLoading());
@@ -40,7 +43,8 @@ export const appInit = () => dispatch => {
           subjects,
           teachers,
           semesters,
-          routine
+          routine,
+          exams
         } = res.data;
         // console.log(res.data);
         // fill the app with new data
@@ -67,6 +71,10 @@ export const appInit = () => dispatch => {
         dispatch({
           type: GET_ALL_ROUTINE_PERIOD,
           payload: routine
+        });
+        dispatch({
+          type: GET_EXAMS,
+          payload: exams
         });
 
         dispatch({ type: STOP_LOADING });

@@ -44,3 +44,10 @@ export const RESET_ROUTINE_PERIOD_REDUCER = 'RESET_ROUTINE_PERIOD_REDUCER';
 export const ADD_CLASSES = 'ADD_CLASSES';
 export const REMOVE_CLASSES = 'REMOVE_CLASSES';
 export const UPDATE_CLASSES = 'UPDATE_CLASSES';
+
+// Exams
+export const GET_EXAMS = 'GET_EXAMS';
+export const ADD_EXAM = 'ADD_EXAM';
+export const REMOVE_EXAM = 'REMOVE_EXAM';
+export const UPDATE_EXAM = 'UPDATE_EXAM';
+export const RESET_EXAM_REDUCER = 'RESET_EXAM_REDUCER';
