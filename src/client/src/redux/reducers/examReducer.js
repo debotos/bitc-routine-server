@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
       if (state['exams'] === null) {
         newExams = [action.payload];
       } else {
-        newExams = [action.payload, ...state['exams']];
+        newExams = [...state['exams'], action.payload];
       }
       return {
         ...state,

@@ -10,8 +10,11 @@ export default class Teachers extends Component {
       <Container isFluid>
         <Box>
           <Columns isCentered>
-            <Column isSize="2/3" className="teacher-table-container">
-              <Table isBordered isStriped isNarrow>
+            <Column
+              style={{ minHeight: '80vh' }}
+              className="teacher-table-container"
+            >
+              <Table isBordered isStriped isNarrow className="is-fullwidth">
                 <thead>
                   <tr>
                     <th>Name</th>

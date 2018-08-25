@@ -255,8 +255,7 @@ class SemesterListItem extends Component {
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(semester.name)
                     }}
-                  />{' '}
-                  to :
+                  />
                 </ModalCardTitle>
               ) : (
                 <ModalCardTitle>Please Wait ! Working...</ModalCardTitle>

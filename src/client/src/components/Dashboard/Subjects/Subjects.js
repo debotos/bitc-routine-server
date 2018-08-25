@@ -10,8 +10,11 @@ export default class Subjects extends Component {
       <Container isFluid>
         <Box>
           <Columns isCentered>
-            <Column isSize="2/3" className="subject-table-container">
-              <Table isBordered isStriped isNarrow>
+            <Column
+              style={{ minHeight: '80vh' }}
+              className="subject-table-container"
+            >
+              <Table isBordered isStriped isNarrow className="is-fullwidth">
                 <thead>
                   <tr>
                     <th>Subject Title</th>

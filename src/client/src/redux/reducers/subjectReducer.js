@@ -25,7 +25,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        subjects: newSubjects.sort((a, b) => (a.code < b.code ? -1 : 1))
+        subjects: newSubjects.sort((a, b) => (a.code > b.code ? -1 : 1))
       };
     case UPDATE_SUBJECT:
       let resUpdate = action.payload;
@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
       });
       return {
         ...state,
-        subjects: updatedAllSubjects.sort((a, b) => (a.code < b.code ? -1 : 1))
+        subjects: updatedAllSubjects.sort((a, b) => (a.code > b.code ? -1 : 1))
       };
     case GET_SUBJECTS:
       // action.payload is an array
@@ -51,7 +51,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        subjects: subjects.sort((a, b) => (a.code < b.code ? -1 : 1))
+        subjects: subjects.sort((a, b) => (a.code > b.code ? -1 : 1))
       };
     case REMOVE_SUBJECT:
       let res = action.payload.removedSubject;
@@ -62,7 +62,7 @@ export default function(state = initialState, action) {
       // console.log('After subject delete ', allsubjects);
       return {
         ...state,
-        subjects: allsubjects.sort((a, b) => (a.code < b.code ? -1 : 1))
+        subjects: allsubjects.sort((a, b) => (a.code > b.code ? -1 : 1))
       };
     default:
       return state;

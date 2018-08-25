@@ -95,12 +95,10 @@ router.post('/:id', auth, (req, res) => {
           { new: true }
         ).then(subject => res.json(subject));
       } else {
-        return res
-          .status(400)
-          .send({
-            id: req.params.id,
-            code: `Code already used with "${codeExist.title}"`
-          });
+        return res.status(400).send({
+          id: req.params.id,
+          code: `Code already used with "${codeExist.title}"`
+        });
       }
     } else {
       const subjectFields = _.pick(req.body, ['title', 'code']);
