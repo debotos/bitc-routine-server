@@ -267,7 +267,7 @@ class Routine extends Component {
           onClick={e => {
             e.preventDefault();
             console.log('*********** Generating pdf *************');
-            GENERATE_PDF(this.props.routine);
+            GENERATE_PDF(this.props.routine, this.props.exams);
           }}
         >
           <i className="fas fa-file-pdf my-float" />
@@ -279,8 +279,8 @@ class Routine extends Component {
 
 const mapStateToProps = state => {
   return {
-    routine: state.routine.routineArray
-    // semesters: state.semesters.semesterArray
+    routine: state.routine.routineArray,
+    exams: state.exams.exams,
   };
 };
 export default connect(mapStateToProps, { clearErrors })(Routine);

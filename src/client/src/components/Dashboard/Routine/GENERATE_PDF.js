@@ -1,9 +1,10 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import moment from 'moment';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-function GENERATE_PDF(routineDB) {
-  console.log('Got Routine DB => ', routineDB);
+function GENERATE_PDF(routineDB, examDB) {
+  console.log('Got Routine DB => ', examDB);
   var docDefinition = {
     // a string or { width: number, height: number }
     pageSize: 'A4',
@@ -48,6 +49,73 @@ function GENERATE_PDF(routineDB) {
             generateTableBodyRow(routineDB, 'Thu', 'thu')
           ]
         }
+      },
+      {
+        margin: [0, 10, 0, 0], // [Left, Top, Right, Bottom]
+        columns: [
+          {
+            // auto-sized columns have their widths based on their content
+            // star-sized columns fill the remaining space
+            width: '*',
+            fontSize: 8,
+            // margin: [-10, 0, -10, 0], // [Left, Top, Right, Bottom]
+            table: {
+              headerRows: 2,
+              widths: ['*', '20%', '20%'], // Generating column header width, how much space a column would take
+
+              body: [
+                [
+                  {
+                    colSpan: 3,
+                    fontSize: 12,
+                    text: {
+                      text: `Mid Exam Date`,
+                      bold: true,
+                      alignment: 'center'
+                    }
+                  },
+                  {},
+                  {}
+                ], // Generating column header
+                [
+                  { text: 'Semester', alignment: 'center', bold: true },
+                  { text: 'First Mid', alignment: 'center', bold: true },
+                  { text: 'Final Mid', alignment: 'center', bold: true }
+                ],
+                ...generateExamTableRow(examDB) // It will return an array of array
+              ]
+            }
+          },
+          {
+            // star-sized columns fill the remaining space
+            // if there's more than one star-column, available width is divided equally
+            width: '*',
+            text: 'Second column'
+            // table: {
+            //   headerRows: 1,
+            //   widths: ['auto', 'auto', 'auto'], // Generating column header width, how much space a column would take
+
+            //   body: [
+            //     [
+            //       {
+            //         colSpan: 3,
+            //         fontSize: 12,
+            //         text: {
+            //           text: `Name of the Teachers`,
+            //           bold: true
+            //         }
+            //       },
+            //       {},
+            //       {}
+            //     ], // Generating column header
+            //     ['some', 'some', 'some'],
+            //     ['some', 'some', 'some']
+            //   ]
+            // }
+          }
+        ],
+        // optional space between columns
+        columnGap: 10
       }
     ],
     styles: {
@@ -79,6 +147,44 @@ function GENERATE_PDF(routineDB) {
   pdfMake.createPdf(docDefinition).open();
 }
 
+// Function for Exam Table
+
+const generateExamTableRow = examDB => {
+  return examDB.map(singleExam => {
+    let semesterNameArray = singleExam.semesters.map(singleSemester => {
+      singleSemester = singleSemester.replace(/(<([^>]+)>)/gi, ''); //  Regex to remove html tag [in this context Removing <sup></sup>]
+      let superscript = singleSemester.slice(-2); // taking last two of the character
+      let semester = singleSemester.substring(0, singleSemester.length - 2); // taking all character except last two character
+      return {
+        margin: [0, 0, 0, 0], // [Left, Top, Right, Bottom]
+        width: 'auto',
+        columnGap: 0,
+        columns: [
+          { text: `\u200B\t${semester}`, width: 'auto' },
+          {
+            text: superscript,
+            fontSize: 6,
+            width: 'auto'
+          }
+        ]
+      };
+      // return { text: semester, width: 'auto' };
+    });
+    return [
+      { columnGap: 0, columns: semesterNameArray },
+      {
+        text: `${moment(singleExam.firstmid).format('DD/MM/YYYY')}`,
+        alignment: 'center'
+      },
+      {
+        text: `${moment(singleExam.finalmid).format('DD/MM/YYYY')}`,
+        alignment: 'center'
+      }
+    ];
+  });
+};
+
+// Below Functions for Routine Table
 const generateTableHeaderRow = routineDB => {
   let alwaysAlwaysHave = 'Day';
 
@@ -116,10 +222,10 @@ const generateColumnWidth = routineDB => {
       })
     : [];
   if (routineDB) {
-    console.log('Table Header Width =>', [
-      alwaysAlwaysHave,
-      ...routineCellHeader
-    ]);
+    // console.log('Table Header Width =>', [
+    //   alwaysAlwaysHave,
+    //   ...routineCellHeader
+    // ]);
     return [alwaysAlwaysHave, ...routineCellHeader];
   }
   return [alwaysAlwaysHave];
