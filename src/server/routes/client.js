@@ -43,13 +43,16 @@ generateResData = (semesters, routine) => {
   let response = {};
 
   for (let i = 0; i < semesters.length; i++) {
-    response[semesters[i]] = []; // creating a key value pair of semester name and empty array
+    response[semesters[i]] = {}; // creating a key value pair of semester name and empty array
+    let resKey = response[semesters[i]]; // just putting inside a var
     for (let key in days) {
+      resKey[key] = []; // assign empty array to each day e.g. sat: [], sun: [], ...
       days[key].forEach(singleDay => {
         singleDay.classes.forEach(singleClass => {
           if (singleClass.semester.toString() === semesters[i].toString()) {
-            response[semesters[i]].push({
-              ..._.pick(singleClass, ['subject', 'teacher', '_id', 'semester']),
+            // checking same semester
+            resKey[key].push({
+              ..._.pick(singleClass, ['subject', 'teacher', '_id', 'semester']), // It's important
               period: singleDay.period,
               break: singleDay.break,
               day: key
