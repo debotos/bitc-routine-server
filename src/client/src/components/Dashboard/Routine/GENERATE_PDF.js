@@ -3,7 +3,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import moment from 'moment';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-function GENERATE_PDF(routineDB, examDB) {
+function GENERATE_PDF(routineDB, examDB, teachersDB) {
   console.log('Got Routine DB => ', examDB);
   var docDefinition = {
     // a string or { width: number, height: number }
@@ -82,7 +82,7 @@ function GENERATE_PDF(routineDB, examDB) {
                   { text: 'First Mid', alignment: 'center', bold: true },
                   { text: 'Final Mid', alignment: 'center', bold: true }
                 ],
-                ...generateExamTableRow(examDB) // It will return an array of array
+                ...generateExamTableRow(examDB) // It will return an array of array[each array is a row]
               ]
             }
           },
@@ -90,28 +90,28 @@ function GENERATE_PDF(routineDB, examDB) {
             // star-sized columns fill the remaining space
             // if there's more than one star-column, available width is divided equally
             width: '*',
-            text: 'Second column'
-            // table: {
-            //   headerRows: 1,
-            //   widths: ['auto', 'auto', 'auto'], // Generating column header width, how much space a column would take
+            fontSize: 8,
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto'], // Generating column header width, how much space a column would take
 
-            //   body: [
-            //     [
-            //       {
-            //         colSpan: 3,
-            //         fontSize: 12,
-            //         text: {
-            //           text: `Name of the Teachers`,
-            //           bold: true
-            //         }
-            //       },
-            //       {},
-            //       {}
-            //     ], // Generating column header
-            //     ['some', 'some', 'some'],
-            //     ['some', 'some', 'some']
-            //   ]
-            // }
+              body: [
+                [
+                  {
+                    colSpan: 3,
+                    fontSize: 12,
+                    text: {
+                      text: `Name of the Teachers`,
+                      bold: true
+                    },
+                    alignment: 'center'
+                  },
+                  {},
+                  {}
+                ], // Generating column header
+                ...generateTeachersTableRow(teachersDB)
+              ]
+            }
           }
         ],
         // optional space between columns
@@ -146,6 +146,42 @@ function GENERATE_PDF(routineDB, examDB) {
   // pdfMake.createPdf(docDefinition).download('bitc_routine.pdf');
   pdfMake.createPdf(docDefinition).open();
 }
+
+// Function for Teachers Table
+
+const generateTeachersTableRow = teachersDB => {
+  let teachers = teachersDB.map(singleTeacher => {
+    if (singleTeacher.guest) {
+      return `\u2022 ${singleTeacher.name} (${singleTeacher.code}) *`;
+    } else {
+      return `\u2022 ${singleTeacher.name} (${singleTeacher.code})`;
+    }
+  });
+  const container = [];
+
+  const column = 3;
+  let cell = teachersDB.length; // e.g 17
+  let rows = Math.ceil(cell / column); // e.g. 6
+
+  let counter = 0;
+
+  for (let i = 0; i < rows; i++) {
+    let SingleRow = [];
+    for (let j = 0; j < 3; j++) {
+      if (teachers[counter]) {
+        SingleRow.push(teachers[counter]);
+      } else {
+        SingleRow.push({});
+      }
+      counter++;
+    }
+    container.push(SingleRow);
+  }
+
+  console.log(container);
+
+  return container;
+};
 
 // Function for Exam Table
 
@@ -193,8 +229,13 @@ const generateTableHeaderRow = routineDB => {
         if (singlePeriodObj.break.isBreak) {
           return {
             rowSpan: 7,
+            margin: [0, 46, 0, 0], // [Left, Top, Right, Bottom]
             text: {
-              text: `${singlePeriodObj.break.msg}`,
+              alignment: 'center',
+              text: `${singlePeriodObj.break.msg
+                .split(' ')
+                .filter(e => e)
+                .join('\n')}`,
               bold: true
             }
           };
