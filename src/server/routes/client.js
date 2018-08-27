@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Routine = require('../models/routine');
 const Semester = require('../models/semester');
+const Exam = require('../models/exam');
 const router = require('express').Router();
 
 // @route   GET api/client/
@@ -24,7 +25,17 @@ router.get('/', (req, res) => {
               .json({ success: false, msg: 'Routine under maintenance' });
           }
           let data = generateResData(semesters, routine);
-          return res.json(data);
+          Exam.find()
+            .then(exams => {
+              return res.json({ routine: data, exams });
+            })
+            .catch(err =>
+              res.status(404).json({
+                routine: data,
+                success: false,
+                msg: 'You have routine data but failed to get exam data'
+              })
+            );
         })
         .catch(err =>
           res
