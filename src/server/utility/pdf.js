@@ -1,6 +1,8 @@
 const moment = require('moment');
 
 function GENERATE_PDF(routineDB, examDB, teachersDB) {
+  routineDB = routineDB.sort((a, b) => (a.serial < b.serial ? -1 : 1));
+  teachersDB = teachersDB.sort((a, b) => (a.name < b.name ? -1 : 1));
   return {
     // a string or { width: number, height: number }
     pageSize: 'A4',

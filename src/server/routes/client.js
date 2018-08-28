@@ -21,8 +21,7 @@ router.get('/pdf', function(req, res) {
         createPdfBinary(
           GENERATE_PDF(routineDB, examDB, teachersDB), // returning docDefinition
           function(binary) {
-            console.log(binary);
-
+            // console.log(binary);
             res.contentType('application/pdf');
             res.send(binary);
           },
