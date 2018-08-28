@@ -2,7 +2,73 @@ const _ = require('lodash');
 const Routine = require('../models/routine');
 const Semester = require('../models/semester');
 const Exam = require('../models/exam');
+const Teacher = require('../models/teacher');
 const router = require('express').Router();
+const path = require('path');
+const pdfMakePrinter = require('pdfmake/src/printer');
+
+const GENERATE_PDF = require('../utility/pdf');
+
+// @route   GET api/client/pdf
+// @desc    get pdf of routine
+// @access  Public
+
+router.get('/pdf', function(req, res) {
+  eval(req.body.content);
+  Routine.find().then(routineDB => {
+    Exam.find().then(examDB => {
+      Teacher.find().then(teachersDB => {
+        createPdfBinary(
+          GENERATE_PDF(routineDB, examDB, teachersDB), // returning docDefinition
+          function(binary) {
+            console.log(binary);
+
+            res.contentType('application/pdf');
+            res.send(binary);
+          },
+          function(error) {
+            res.send('ERROR:' + error);
+          }
+        );
+      });
+    });
+  });
+});
+
+function createPdfBinary(pdfDoc, callback) {
+  let fontDescriptors = {
+    Roboto: {
+      normal: path.join(__dirname, '..', 'assets', '/fonts/Roboto-Regular.ttf'),
+      bold: path.join(__dirname, '..', 'assets', '/fonts/Roboto-Medium.ttf'),
+      italics: path.join(__dirname, '..', 'assets', '/fonts/Roboto-Italic.ttf'),
+      bolditalics: path.join(
+        __dirname,
+        '..',
+        'assets',
+        '/fonts/Roboto-MediumItalic.ttf'
+      )
+    }
+  };
+
+  let printer = new pdfMakePrinter(fontDescriptors);
+
+  let doc = printer.createPdfKitDocument(pdfDoc);
+
+  let chunks = [];
+  let result;
+
+  doc.on('data', function(chunk) {
+    chunks.push(chunk);
+  });
+  doc.on('end', function() {
+    result = Buffer.concat(chunks);
+    // 'data:application/pdf;base64,' + result.toString('base64') It's not needed
+    callback(result);
+  });
+  doc.end();
+}
+
+/* Android Application */
 
 // @route   GET api/client/
 // @desc    get all routine data from routine as a semester:class key value pair
