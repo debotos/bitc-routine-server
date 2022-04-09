@@ -7,7 +7,7 @@
     "dompurify": "^1.0.7",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "pdfmake": "^0.1.37",
     "rc-time-picker": "^3.4.0",
     "react": "^16.4.2",
